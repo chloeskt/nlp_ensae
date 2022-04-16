@@ -28,27 +28,31 @@ All finetuned models used in these experiments can be found [here](https://drive
 
 They were trained with the following parameters:
 
-|                               | **BERT** | **mBERT** | **XLM-RoBERTa** | **CANINE-C** | **CANINE-S** |
-|:-----------------------------:|:--------:|:---------:|:---------------:|:------------:|:------------:|
-|          Batch size           | 6        | 6         |        6        | 6            | 6            |
-|         Learning Rate         | 3e-5     | 3e-5      |      3e-5       | 5e-5         | 5e-5         |
-|          Weigh decay          | 0        | 0         |        0        | 0.01         | 0.1          |
-|         Nb of epochs          | 2        | 4         |        4        | 2            | 6            |
-|  Number of training examples  | 132335   | 132335    |     131823      | 130303       | 130303       |
-| Number of validation examples | 12245    | 12245     |      12165      | 11861        | 11861        |
-|          Max length           | 348      | 348       |       348       | 2048         | 2048         |
-|          Doc stride           | 128      | 128       |       128       | 512          | 512          |
-|       Max answer length       | 30       | 30        |       30        | 256          | 256          |
-
+|             	| Batch size 	| Learning Rate 	| Weigh decay 	| Nb of epochs 	| Number of training examples 	| Number of validation examples 	| Max sequence length 	| Doc stride 	| Max answer length 	| Lr scheduler 	| Warmup ratio 	|
+|:-----------:	|:----------:	|:-------------:	|:-----------:	|:------------:	|:---------------------------:	|:-----------------------------:	|:-------------------:	|:----------:	|:-----------------:	|:------------:	|:------------:	|
+|   RoBERTa   	|     12     	|      2e-5     	|     1e-4    	|       3      	|            131823           	|             12165             	|         348         	|     128    	|         30        	|    cosine    	|      0.1     	|
+|     BERT    	|      8     	|      3e-5     	|      0      	|              	|            131754           	|             12134             	|         348         	|     128    	|         30        	|    linear    	|       0      	|
+|  DistilBERT 	|      8     	|      3e-5     	|     1e-2    	|       2      	|            131754           	|             12134             	|         348         	|     128    	|         30        	|    linear    	|      0.1     	|
+|    mBERT    	|      8     	|      2e-5     	|      0      	|       2      	|            132335           	|             12245             	|         348         	|     128    	|         30        	|    linear    	|       0      	|
+| XLM-ROBERTA 	|      8     	|      3e-5     	|      0      	|       2      	|            133317           	|             12360             	|         348         	|     128    	|         30        	|    linear    	|       0      	|
+|   CANINE-c  	|      4     	|      5e-5     	|     0.01    	|       3      	|            130303           	|             11861             	|         2048        	|     512    	|        256        	|    linear    	|      0.1     	|
+|   CANINE-s  	|      4     	|      5e-5     	|    0.001    	|      2.5     	|            130303           	|             11861             	|         2048        	|     512    	|        256        	|    linear    	|      0.1     	|
 
 ## Results \& Observations
 
 ### Finetuning on SQuADv2
 
-|          | **CANINE-C** | **CANINE-S** | **mBERT** | **BERT** | **XLM-RoBERTa** |
-|:--------:|:------------:|:------------:|:---------:|:--------:|:---------------:|
-| F1-score | 74,1         |     72,5     | 77,51     | 76,02    | 78,3            |
-| EM score | 69,2         |     69,6     | 74,1      | 73,08    | 75,12           |
+
+|                 	| **F1-score** 	| **EM score** 	|
+|:---------------:	|:------------:	|:------------:	|
+|     **BERT**    	|     76.74    	|     73.59    	|
+|   **RoBERTa**   	|     82.02    	|     78.54    	|
+|  **DistilBERT** 	|     67.81    	|     64.71    	|
+|   **CANINE-C**  	|     74.1     	|     69.2     	|
+|   **CANINE-S**  	|     72.5     	|     69.6     	|
+|    **mBERT**    	|     77.51    	|     74.1     	|
+| **XLM-RoBERTa** 	|     78.3     	|     75.12    	|
+
 
 In this settings, CANINE performs decently well  (especially CANINE-c i.e. CANINE trained with Autoregressive Character Loss).
 
@@ -110,14 +114,16 @@ The noise is **only** applied to the test set (on SQuADv2) made of 1187 examples
 on the clean version of SQuADv2 (first experiment) on these 3 noisy datasets (on for each level of $p$). The following
 table gathers the results (averaged over 3 runs):
 
-| **Type of noise: RandomCharAug - substitute** 	| **Noise level 10%** 	|        	| **Noise level 20%** 	|        	| **Noise level 40%** 	 | 	        |
-|-----------------------------------------------	|---------------------	|--------	|---------------------	|--------	|-----------------------|----------|
-|                                               	| **F1 score**        	| **EM** 	| **F1 score**        	| **EM** 	| **F1 score**        	 | **EM** 	 |
-| **CANINE-C**                                  	| 69,64               	| 66,89  	| 67,88               	| 65,43  	| 66,03               	 | 63,9   	 |
-| **CANINE-S**                                  	| 72,25               	| 69,65  	| 70,3                	| 68,03  	| **67,18**           	 | 64,6   	 |
-| **BERT**                                      	| 73,68               	| 70,79  	| 71,22               	| 68,55  	| 66,42               	 | 63,74  	 |
-| **mBERT**                                     	| 74                  	| 70,75  	| 71,66               	| 68,46  	| 67,08               	 | 64,74  	 |
-| **XLM-RoBERTa**                               	| **74,54**           	| 71,61  	| **72,68**           	| 69,81  	| **67,12**           	 | 64,43  	 |
+|                 	| **Noise level 10%** 	|        	| **Noise level 20%** 	|        	| **Noise level 40%** 	|        	|
+|:---------------:	|:-------------------:	|:------:	|:-------------------:	|:------:	|:-------------------:	|:------:	|
+|                 	|     **F1 score**    	| **EM** 	|     **F1 score**    	| **EM** 	|     **F1 score**    	| **EM** 	|
+|     **BERT**    	|        73,68        	|  70,79 	|        71,22        	|  68,55 	|        66,42        	|  63,74 	|
+|   **RoBERTa**   	|        79,06        	|  75,87 	|        76,57        	|  73,56 	|         70,7        	|  68,18 	|
+|  **DistilBERT** 	|        65,85        	|  63,05 	|        64,42        	|  61,92 	|        60,77        	|  58,78 	|
+|    **mBERT**    	|          74         	|  70,75 	|        71,66        	|  68,46 	|        67,08        	|  64,74 	|
+| **XLM-RoBERTa** 	|        74,54        	|  71,61 	|        72,68        	|  69,81 	|        67,12        	|  64,43 	|
+|   **CANINE-C**  	|        69,64        	|  66,89 	|        67,88        	|  65,43 	|        66,03        	|  63,9  	|
+|   **CANINE-S**  	|        72,25        	|  69,65 	|         70,3        	|  68,03 	|        67,18        	|  64,6  	|
 
 Overall XLM-RoBERTa is a very powerful model, it is the best in all experiences we attempted. However it is worth 
 highlighting that once the noise level is high (i.e. > 40\%), both CANINE-C and CANINE-S perform similarly to BERT-like 
