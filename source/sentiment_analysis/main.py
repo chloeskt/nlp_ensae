@@ -10,12 +10,13 @@ from transformers import (
     RobertaTokenizerFast,
     SchedulerType,
     BertTokenizerFast,
-    BertForQuestionAnswering,
-    RobertaForQuestionAnswering,
     DistilBertTokenizerFast,
-    DistilBertForQuestionAnswering,
     XLMRobertaTokenizerFast,
     DataCollatorWithPadding,
+    CanineForSequenceClassification,
+    BertForSequenceClassification,
+    RobertaForSequenceClassification,
+    DistilBertForSequenceClassification,
 )
 
 from sentiment_analysis import (
@@ -39,6 +40,8 @@ DISTILBERT_MODEL = "distilbert"
 
 SST2_DATASET_CONFIG = "sst2"
 GLUE_DATASET_NAME = "glue"
+
+NUM_LABELS = 2
 
 logger = logging.getLogger(__name__)
 
@@ -74,32 +77,43 @@ def train_model(
     if model_name in [CANINE_C_MODEL, CANINE_S_MODEL]:
         pretrained_model_name = f"google/{model_name}"
         tokenizer = CanineTokenizer.from_pretrained(pretrained_model_name)
+        model = CanineForSequenceClassification.from_pretrained(
+            pretrained_model_name, num_labels=NUM_LABELS
+        )
     else:
         if model_name == BERT_MODEL:
             pretrained_model_name = "bert-base-uncased"
             tokenizer = BertTokenizerFast.from_pretrained(pretrained_model_name)
-            model = BertForQuestionAnswering.from_pretrained(pretrained_model_name)
+            model = BertForSequenceClassification.from_pretrained(
+                pretrained_model_name, num_labels=NUM_LABELS
+            )
 
         elif model_name == MBERT_MODEL:
             pretrained_model_name = "bert-base-multilingual-cased"
             tokenizer = BertTokenizerFast.from_pretrained(pretrained_model_name)
-            model = BertForQuestionAnswering.from_pretrained(pretrained_model_name)
+            model = BertForSequenceClassification.from_pretrained(
+                pretrained_model_name, num_labels=NUM_LABELS
+            )
 
         elif model_name == XLM_ROBERTA_MODEL:
             pretrained_model_name = "xlm-roberta-base"
             tokenizer = XLMRobertaTokenizerFast.from_pretrained(pretrained_model_name)
-            model = RobertaForQuestionAnswering.from_pretrained(pretrained_model_name)
+            model = RobertaForSequenceClassification.from_pretrained(
+                pretrained_model_name, num_labels=NUM_LABELS
+            )
 
         elif model_name == ROBERTA_MODEL:
             pretrained_model_name = "roberta-base"
             tokenizer = RobertaTokenizerFast.from_pretrained(pretrained_model_name)
-            model = RobertaForQuestionAnswering.from_pretrained(pretrained_model_name)
+            model = RobertaForSequenceClassification.from_pretrained(
+                pretrained_model_name, num_labels=NUM_LABELS
+            )
 
         elif model_name == DISTILBERT_MODEL:
             pretrained_model_name = "distilbert-base-uncased"
             tokenizer = DistilBertTokenizerFast.from_pretrained(pretrained_model_name)
-            model = DistilBertForQuestionAnswering.from_pretrained(
-                pretrained_model_name
+            model = DistilBertForSequenceClassification.from_pretrained(
+                pretrained_model_name, num_labels=NUM_LABELS
             )
 
         else:
@@ -292,6 +306,7 @@ if __name__ == "__main__":
         required=True,
         help="Whether or not tokenizer should truncate the inputs",
     )
+    parser.add_argument("--padding", type=str, help="Padding strategy")
 
     args = parser.parse_args()
 
