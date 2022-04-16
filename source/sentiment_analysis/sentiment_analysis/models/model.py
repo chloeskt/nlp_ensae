@@ -8,12 +8,18 @@ HuggingFaceModelT = Any
 
 
 class Model(nn.Module):
-    """Generic model for Question Answering Tasks"""
+    """Generic model for Sentiment Classification Tasks"""
 
     def __init__(self, model: HuggingFaceModelT, config: PretrainedConfig):
         nn.Module.__init__(self)
+        self.num_labels = config.num_labels
+
         self.model = model
-        self.qa_outputs = nn.Linear(config.hidden_size, config.num_labels)
+        self.dropout = nn.Dropout(config.hidden_dropout_prob)
+        self.classifier = nn.Linear(config.hidden_size, config.num_labels)
+
+        # Initialize weights and apply final processing
+        self.post_init()
 
     def forward(
         self,
@@ -39,4 +45,7 @@ class Model(nn.Module):
             return_dict=return_dict,
         )
 
-        return self.qa_outputs(outputs[0])
+        pooled_output = outputs[1]
+
+        pooled_output = self.dropout(pooled_output)
+        return self.classifier(pooled_output)
