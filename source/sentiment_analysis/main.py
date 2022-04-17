@@ -1,9 +1,10 @@
 import argparse
 import logging
 import os
+import random
 
 import torch
-from datasets import load_dataset, load_metric
+from datasets import load_dataset, load_metric, load_from_disk
 from transformers import (
     CanineTokenizer,
     IntervalStrategy,
@@ -41,6 +42,7 @@ DISTILBERT_MODEL = "distilbert"
 
 SST2_DATASET_CONFIG = "sst2"
 GLUE_DATASET_NAME = "glue"
+SENT140_DATASET_NAME = "sentiment140"
 
 NUM_LABELS = 2
 
@@ -66,14 +68,18 @@ def train_model(
     path_to_finetuned_model: str,
     dataset_config: str,
     padding: str,
+    path_to_custom_dataset: str,
 ) -> None:
     logger.info(f"Loading dataset {dataset_name}")
     if dataset_name == GLUE_DATASET_NAME:
         logger.info(f"Chosen configuration is {dataset_config}")
-        datasets = load_dataset(dataset_name, dataset_config)
+        datasets = load_from_disk(path_to_custom_dataset)
+    elif dataset_name == SENT140_DATASET_NAME:
+        datasets = load_from_disk(path_to_custom_dataset)
     else:
         raise NotImplementedError
 
+    print(datasets)
     logger.info(f"Preparing for model {model_name}")
     if model_name in [CANINE_C_MODEL, CANINE_S_MODEL]:
         pretrained_model_name = f"google/{model_name}"
@@ -289,7 +295,7 @@ if __name__ == "__main__":
         "--dataset_name",
         type=str,
         default="glue",
-        choices=[GLUE_DATASET_NAME],
+        choices=[GLUE_DATASET_NAME, SENT140_DATASET_NAME],
         required=True,
         help="Name of the dataset to train/evaluate on",
     )
@@ -319,6 +325,12 @@ if __name__ == "__main__":
         help="Whether or not tokenizer should truncate the inputs",
     )
     parser.add_argument("--padding", type=str, help="Padding strategy")
+    parser.add_argument(
+        "--path_to_custom_dataset",
+        type=str,
+        help="Path to custom dataset",
+        required=True,
+    )
 
     args = parser.parse_args()
 
@@ -341,4 +353,5 @@ if __name__ == "__main__":
         path_to_finetuned_model=args.path_to_finetuned_model,
         dataset_config=args.dataset_config,
         padding=args.padding,
+        path_to_custom_dataset=args.path_to_custom_dataset,
     )
