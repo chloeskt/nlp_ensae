@@ -28,17 +28,16 @@ def to_pandas(dataset: Dataset) -> pd.DataFrame:
 
 def save_predictions_to_pandas_dataframe(
     test_predictions: PredictionOutput,
-    tokenized_datasets: Dataset,
+    datasets: Dataset,
     output_dir: str,
     model_name: str,
     logger: Logger,
 ) -> None:
     preds = np.argmax(test_predictions.predictions, axis=1)
-    tokenized_datasets["validation"].add_column("predictions", preds)
-    final_val_df = to_pandas(tokenized_datasets["validation"])
-    final_val_df = final_val_df.drop(
-        columns=["input_ids", "token_type_ids", "attention_mask", "idx"]
-    )
+    final_val_df = to_pandas(datasets["validation"])
+    cols_to_drop = ["idx"]
+    final_val_df = final_val_df.drop(columns=cols_to_drop)
+    final_val_df["predictions"] = preds
     save_path = os.path.join(output_dir, f"{model_name}_predictions.csv")
     final_val_df.to_csv(save_path, index=False)
     logger.info(f"Saved predictions at {save_path}")

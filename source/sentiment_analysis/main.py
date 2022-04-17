@@ -201,7 +201,7 @@ def train_model(
         if save_predictions:
             save_predictions_to_pandas_dataframe(
                 test_predictions,
-                tokenized_datasets,
+                datasets,
                 output_dir,
                 model_name,
                 logger,
