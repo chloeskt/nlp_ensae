@@ -126,8 +126,10 @@ class CustomTrainer(ABC):
         self.logger.info(f"Start predicting on {mode} set")
         if mode == "val":
             data = self.data_args.tokenized_datasets["validation"]
+        elif mode == "test":
+            data = self.data_args.tokenized_datasets["test"]
         else:
-            data = self.data_args.tokenized_datasets["test"].rename_column("label")
+            raise NotImplementedError
         predictions = self.trainer.predict(data)
         self.logger.info("Prediction done")
         return predictions

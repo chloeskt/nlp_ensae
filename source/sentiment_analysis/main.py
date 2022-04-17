@@ -1,10 +1,9 @@
 import argparse
 import logging
 import os
-import random
 
 import torch
-from datasets import load_dataset, load_metric, load_from_disk
+from datasets import load_metric, load_from_disk
 from transformers import (
     CanineTokenizer,
     IntervalStrategy,
@@ -69,6 +68,7 @@ def train_model(
     dataset_config: str,
     padding: str,
     path_to_custom_dataset: str,
+    mode: str,
 ) -> None:
     logger.info(f"Loading dataset {dataset_name}")
     if dataset_name == GLUE_DATASET_NAME:
@@ -197,21 +197,19 @@ def train_model(
     logger.info("Final evaluation done")
 
     logger.info("GET PREDICTIONS")
-    mode = "val"
     test_predictions = trainer.predict(mode=mode)
     logger.info("Predictions done")
-    if mode == "val":
-        results = trainer.evaluate_predictions(test_predictions)
-        logger.info(f"Prediction accuracy {results['accuracy']}")
-        save_predictions = True
-        if save_predictions:
-            save_predictions_to_pandas_dataframe(
-                test_predictions,
-                datasets,
-                output_dir,
-                model_name,
-                logger,
-            )
+    results = trainer.evaluate_predictions(test_predictions)
+    logger.info(f"Predictions accuracy {results['accuracy']}")
+    save_predictions = True
+    if save_predictions:
+        save_predictions_to_pandas_dataframe(
+            test_predictions,
+            datasets,
+            output_dir,
+            model_name,
+            logger,
+        )
 
     if not eval_only:
         # Save best model
@@ -331,6 +329,9 @@ if __name__ == "__main__":
         help="Path to custom dataset",
         required=True,
     )
+    parser.add_argument(
+        "--mode", type=str, help="Evaluation mode", choices=["val", "test"]
+    )
 
     args = parser.parse_args()
 
@@ -354,4 +355,5 @@ if __name__ == "__main__":
         dataset_config=args.dataset_config,
         padding=args.padding,
         path_to_custom_dataset=args.path_to_custom_dataset,
+        mode=args.mode,
     )
