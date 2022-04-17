@@ -76,6 +76,8 @@ def train_model(
         datasets = load_from_disk(path_to_custom_dataset)
     elif dataset_name == SENT140_DATASET_NAME:
         datasets = load_from_disk(path_to_custom_dataset)
+        datasets = datasets.remove_columns(["date", "user", "query"])
+        datasets = datasets.rename_columns({"text": "sentence", "sentiment": "label"})
     else:
         raise NotImplementedError
 
