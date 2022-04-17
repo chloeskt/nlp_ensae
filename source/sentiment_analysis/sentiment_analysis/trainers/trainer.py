@@ -103,7 +103,6 @@ class CustomTrainer(ABC):
             args,
             train_dataset=self.data_args.tokenized_datasets["train"],
             eval_dataset=self.data_args.tokenized_datasets["validation"],
-            test_dataset=self.data_args.tokenized_datasets["test"],
             data_collator=self.trainer_args.data_collator,
             tokenizer=self.data_args.tokenizer,
             callbacks=callbacks,
