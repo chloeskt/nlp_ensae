@@ -25,6 +25,7 @@ from sentiment_analysis import (
     TrainerArguments,
     DataArguments,
     CustomTrainer,
+    save_predictions_to_pandas_dataframe,
 )
 
 SEED = 0
@@ -188,6 +189,23 @@ def train_model(
     logger.info("START FINAL EVALUATION")
     trainer.evaluate()
     logger.info("Final evaluation done")
+
+    logger.info("GET PREDICTIONS")
+    mode = "val"
+    test_predictions = trainer.predict(mode=mode)
+    logger.info("Predictions done")
+    if mode == "val":
+        results = trainer.evaluate_predictions(test_predictions)
+        logger.info(f"Prediction accuracy {results['accuracy']}")
+        save_predictions = True
+        if save_predictions:
+            save_predictions_to_pandas_dataframe(
+                test_predictions,
+                tokenized_datasets,
+                output_dir,
+                model_name,
+                logger,
+            )
 
     if not eval_only:
         # Save best model

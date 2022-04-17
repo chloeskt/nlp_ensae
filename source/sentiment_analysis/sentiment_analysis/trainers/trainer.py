@@ -122,9 +122,13 @@ class CustomTrainer(ABC):
             f"Evaluation done: Eval loss {results['eval_loss']}, Eval accuracy {results['eval_accuracy']}"
         )
 
-    def predict(self) -> PredictionOutput:
-        self.logger.info("Start predicting on test set")
-        predictions = self.trainer.predict(self.data_args.tokenized_datasets["test"])
+    def predict(self, mode: str) -> PredictionOutput:
+        self.logger.info(f"Start predicting on {mode} set")
+        if mode == "val":
+            data = self.data_args.tokenized_datasets["validation"]
+        else:
+            data = self.data_args.tokenized_datasets["test"].rename_column("label")
+        predictions = self.trainer.predict(data)
         self.logger.info("Prediction done")
         return predictions
 
