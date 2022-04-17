@@ -27,7 +27,8 @@ from sentiment_analysis import (
     DataArguments,
     CustomTrainer,
     save_predictions_to_pandas_dataframe,
-    remove_neutral_tweets, to_pandas,
+    remove_neutral_tweets,
+    to_pandas,
 )
 
 NUM_LABELS = 2
@@ -216,9 +217,9 @@ def train_model(
         logger.info("START TRAINING")
         trainer.train()
 
-    logger.info("START FINAL EVALUATION")
-    trainer.evaluate()
-    logger.info("Final evaluation done")
+    # logger.info("START FINAL EVALUATION")
+    # trainer.evaluate()
+    # logger.info("Final evaluation done")
 
     logger.info("GET PREDICTIONS")
     test_predictions = trainer.predict(mode=mode)
@@ -232,6 +233,7 @@ def train_model(
             datasets,
             output_dir,
             model_name,
+            mode,
             logger,
         )
 

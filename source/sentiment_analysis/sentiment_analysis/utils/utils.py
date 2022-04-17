@@ -31,21 +31,25 @@ def save_predictions_to_pandas_dataframe(
     datasets: Dataset,
     output_dir: str,
     model_name: str,
+    mode: str,
     logger: Logger,
 ) -> None:
     preds = np.argmax(test_predictions.predictions, axis=1)
-    final_val_df = to_pandas(datasets["validation"])
-    cols_to_drop = ["idx"]
-    final_val_df = final_val_df.drop(columns=cols_to_drop)
-    final_val_df["predictions"] = preds
+    if mode == "val":
+        df = to_pandas(datasets["validation"])
+    elif mode == "test":
+        df = to_pandas(datasets["test"])
+    else:
+        raise NotImplementedError
+    df["predictions"] = preds
     save_path = os.path.join(output_dir, f"{model_name}_predictions.csv")
-    final_val_df.to_csv(save_path, index=False)
+    df.to_csv(save_path, index=False)
     logger.info(f"Saved predictions at {save_path}")
 
 
 def remove_neutral_tweets(dataset: DatasetDict) -> DatasetDict:
     for col in dataset.column_names:
         # Keep only non-neutral tweets
-        non_neutral_ids = np.where(np.array(dataset[col]['sentiment']) != 2)[0]
+        non_neutral_ids = np.where(np.array(dataset[col]["sentiment"]) != 2)[0]
         dataset[col] = dataset[col].select(non_neutral_ids)
     return dataset
