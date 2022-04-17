@@ -103,6 +103,7 @@ class CustomTrainer(ABC):
             args,
             train_dataset=self.data_args.tokenized_datasets["train"],
             eval_dataset=self.data_args.tokenized_datasets["validation"],
+            test_dataset=self.data_args.tokenized_datasets["test"],
             data_collator=self.trainer_args.data_collator,
             tokenizer=self.data_args.tokenizer,
             callbacks=callbacks,
@@ -118,6 +119,15 @@ class CustomTrainer(ABC):
         self.logger.info("Start evaluation")
         self.trainer.evaluate()
         self.logger.info("Evaluation done")
+
+    def predict(self) -> EvalPrediction:
+        self.logger.info("Start predicting on test set")
+        predictions = self.trainer.predict(self.data_args.tokenized_datasets["test"])
+        self.logger.info("Prediction done")
+        return predictions
+
+    def evaluate_predictions(self, eval_predictions: EvalPrediction) -> Dict[str, float]:
+        return self._compute_metrics(eval_predictions)
 
     def save_model(self) -> None:
         self.logger.info(

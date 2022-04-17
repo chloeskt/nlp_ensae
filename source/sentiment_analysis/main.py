@@ -186,8 +186,9 @@ def train_model(
         logger.info("START TRAINING")
         trainer.train()
 
-    logger.info("START FINAL EVALUATION")
-    trainer.evaluate()
+    logger.info("START FINAL PREDICTION")
+    final_predictions = trainer.predict()
+    trainer.evaluate_predictions(final_predictions)
 
     if not eval_only:
         # Save best model

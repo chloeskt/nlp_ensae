@@ -22,6 +22,17 @@ A third experiment is to test the abilities of CANINE to handle noisy inputs, es
 settings the questions are often noisy (misspellings, wrong grammar, etc - think of ASR systems or keyboard error while 
 typing).
 
+Our fourth experiment consists in measuring the abilities of CANINE to adapt to new target domain by only doing few-shot 
+learning. This means that we want to take a finetuned CANINE model (on SQuADv2 which is a general wikipedia-based dataset) 
+and measure its performance on another domain-specific dataset (for instance medical or legal datasets which are two 
+domains with very specific wording and concepts) after having train it for a small number of epochs (3 or less) on a very 
+small number of labeled data (less than 250 for instance). These performances will be compared to those of the other 
+models we have chosen along this study. 
+
+Last, we will stay again in the few-shot learning domain but test the abilities of CANINE to resist to adversarial 
+attacks knowing that it has not been trained for that and that it will only be trained for few epochs and a small number 
+of adversarial examples. 
+
 ## Finetuned models
 
 All finetuned models used in these experiments can be found [here](https://drive.google.com/drive/folders/1JVR6J8OjSTQ66fBseqHsSzoryTCQXVO_?usp=sharing).
@@ -41,7 +52,6 @@ They were trained with the following parameters:
 ## Results \& Observations
 
 ### Finetuning on SQuADv2
-
 
 |                 	| **F1-score** 	| **EM score** 	|
 |:---------------:	|:------------:	|:------------:	|
