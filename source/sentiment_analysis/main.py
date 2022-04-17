@@ -69,6 +69,7 @@ def train_model(
 ) -> None:
     logger.info(f"Loading dataset {dataset_name}")
     if dataset_name == GLUE_DATASET_NAME:
+        logger.info(f"Chosen configuration is {dataset_config}")
         datasets = load_dataset(dataset_name, dataset_config)
     else:
         raise NotImplementedError
@@ -186,9 +187,9 @@ def train_model(
         logger.info("START TRAINING")
         trainer.train()
 
-    logger.info("START FINAL PREDICTION")
-    final_predictions = trainer.predict()
-    trainer.evaluate_predictions(final_predictions)
+    logger.info("START FINAL EVALUATION")
+    trainer.evaluate()
+    logger.info("Final evaluation done")
 
     if not eval_only:
         # Save best model

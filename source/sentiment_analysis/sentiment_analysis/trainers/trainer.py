@@ -2,7 +2,7 @@ import logging
 import os
 from abc import ABC
 from dataclasses import dataclass
-from typing import Any, Dict, List, Callable
+from typing import Any, Dict, List, Callable, Union
 
 import numpy as np
 import torch
@@ -18,6 +18,7 @@ from transformers import (
     EvalPrediction,
 )
 from transformers.data.data_collator import InputDataClass
+from transformers.trainer_utils import PredictionOutput
 
 
 @dataclass
@@ -116,16 +117,20 @@ class CustomTrainer(ABC):
 
     def evaluate(self) -> None:
         self.logger.info("Start evaluation")
-        self.trainer.evaluate()
-        self.logger.info("Evaluation done")
+        results = self.trainer.evaluate()
+        self.logger.info(
+            f"Evaluation done: Eval loss {results['eval_loss']}, Eval accuracy {results['eval_accuracy']}"
+        )
 
-    def predict(self) -> EvalPrediction:
+    def predict(self) -> PredictionOutput:
         self.logger.info("Start predicting on test set")
         predictions = self.trainer.predict(self.data_args.tokenized_datasets["test"])
         self.logger.info("Prediction done")
         return predictions
 
-    def evaluate_predictions(self, eval_predictions: EvalPrediction) -> Dict[str, float]:
+    def evaluate_predictions(
+        self, eval_predictions: PredictionOutput
+    ) -> Dict[str, float]:
         return self._compute_metrics(eval_predictions)
 
     def save_model(self) -> None:
@@ -134,8 +139,16 @@ class CustomTrainer(ABC):
         )
         torch.save(self.trainer.model.state_dict(), self.trainer_args.model_save_path)
 
-    def _compute_metrics(self, eval_predictions: EvalPrediction) -> Dict[str, float]:
-        predictions, labels = eval_predictions
+    def _compute_metrics(
+        self, eval_predictions: Union[EvalPrediction, PredictionOutput]
+    ) -> Dict[str, float]:
+        try:
+            predictions, labels = eval_predictions
+        except:
+            predictions, labels = (
+                eval_predictions.predictions,
+                eval_predictions.label_ids,
+            )
         predictions = np.argmax(predictions, axis=1)
         return self.trainer_args.metric.compute(
             predictions=predictions, references=labels
