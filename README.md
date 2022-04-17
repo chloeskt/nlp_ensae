@@ -13,35 +13,105 @@ Sentiment Analysis/Classification (SC).
 For QA, we are interested in 5 downstream tasks: simple extractive QA on SQuADv2, generalization in zero-shot transfer
 settings on multilingual data, robustness to noise, domain adaptation and resistance to adversarial attacks.
 
-Fo SC, we are primarily interested in binary classification using the well-known SST-2 dataset and robustness to noise.
+Fo SC, we are primarily interested in binary classification using the well-known SST-2 dataset. We are also interested in
+more real-life settings dataset (Sentiment140) and robustness to noise on such datasets.
 
 Each time the experiment protocol is similar: 
 
 - encode the dataset using the tokenizer associated to each model
-- ...
-
-Define the context in which you want your project to be
-Frame and Write down one or several key questions that you’ll try to answer based on the data you will choose and the 
-experiments you will run. 
-Define and explain a clear experiment protocol to answer those questions (what techniques you will use, based on what 
-tasks, what models, what preprocessing, what training, what evaluation you intend to do) 
+- fed the tokenized data to the model
+- training/evaluation loop
+- monitor validation loss/accuracy
+- use early stopping
+- predict/evaluation on test set once the best model has been found
+- analyse the predictions and errors of your model
+- compare to other models
+- build intuition
 
 # Datasets
 
+Here is a list of the datasets we considered, depending on the task.
+
+## Question Answering
+
+- SQuADv2
+- XQuAD
+- CUAD
+- dynabench/qa
+
+## Sentiment Analysis
+
+- SST2 (part of GLUE benchmark)
+- Sentiment140 (1.6 billon of tweets)
+
 # Descriptive statistics
 
-# Embedding techniques
+Please, take a look at the Colab notebook: 
 
-# Task specific modeling
+- [ ] TODO: INSERT LINK
+
+# Embedding techniques \& Task specific modeling
+
+For all considered downstream tasks, we evaluated CANINE against 5 other models, both unilingual and multilingual. Studied
+models are:
+
+- CANINE
+- BERT
+- mBERT
+- DistilBERT
+- RoBERTa
+- XLM-RoBERTa
+
+For each model, we used the associated tokenizer provided by the Hugging Face library. 
+
+Note that CANINE does not require tokenization, instead it operates at the character level using Unicode (``ord(c)``
+in Python).
+
+## Question Answering: regression head
+
+To each core model, we added one linear layer (of shape (768,2) for CANINE for instance) to predict start and end logits 
+for minimal span answer (given a context and a question, extract the passage with the answer in the context). Note that
+the trickiest part was to implement a functional tokenizer for CANINE since the one provided by HG is not suited for QA.
+If you are interested, please refer to the code in ``source/question_answering/question_answering/dataset_tokenizers/dataset_character_based_tokenizer.py``.
+
+## Sentiment Analysis: classification head
+
+To each model, we added a linear layer (of shape (768, num_labels) for CANINE e.g.) to predict logits over the number of 
+classes in the dataset (2 for SST2 and 3 for Sentiment140), with a dropout layer with $p=0.1$ or $0.2$ depending on the 
+model. The implementation was quite straightforward and in the final pipeline we used the architecture provided by
+Hugging Face in order to keep only pipeline clean and fast.
 
 # Baselines
 
+As the goal is to evaluate CANINE and compare its performances to BERT-like models, these models are our baseline.
+
 # Evaluation: both quantitative and qualitative
 
-# Time and space complexity and cost
+- Question Answering: F1 score and Exact Match
+- Sentiment Classification: Accuracy
 
-# Experiments
+Link to the Colab notebook which walks through the errors committed by our models on SST2.
 
-# Results 
+- [ ] TODO: ADD COLAB LINK
+
+# Pre-trained models
+
+All pretrained models and custom datasets are available here:
+
+- Question Answering
+- Sentiment Classification 
+
+- [ ] TODO: add links
+
+# Experiments \& Results
+
+To know more about the experiments we have done, we strongly advise you to look at each downstream task ``README.md``
+
+- [QA](https://github.com/chloeskt/nlp_ensae/blob/main/source/question_answering/README.md)
+- [SA](https://github.com/chloeskt/nlp_ensae/blob/main/source/sentiment_analysis/README.md)
+
+These ``README.md`` contain relevant information to each task. 
 
 # Future directions
+
+...
