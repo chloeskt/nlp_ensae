@@ -60,7 +60,6 @@ def train_model(
     device: str,
     dataset_name: str,
     batch_size: int,
-    max_length: int,
     truncation: bool,
     eval_only: bool,
     path_to_finetuned_model: str,
@@ -124,7 +123,6 @@ def train_model(
         tokenizer=tokenizer,
         padding=padding,
         truncation=truncation,
-        max_length=max_length,
     )
 
     tokenized_datasets = datasets.map(
@@ -289,12 +287,6 @@ if __name__ == "__main__":
         required=True,
         help="Batch size for training and evaluation",
     )
-    parser.add_argument(
-        "--max_length",
-        type=int,
-        required=True,
-        help="The maximum length of a feature",
-    )
     parser.add_argument("--eval_only", type=bool, default=False)
     parser.add_argument(
         "--path_to_finetuned_model",
@@ -326,7 +318,6 @@ if __name__ == "__main__":
         device=args.device,
         dataset_name=args.dataset_name,
         batch_size=args.batch_size,
-        max_length=args.max_length,
         truncation=args.truncation,
         eval_only=args.eval_only,
         path_to_finetuned_model=args.path_to_finetuned_model,
