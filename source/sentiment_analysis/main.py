@@ -1,9 +1,10 @@
 import argparse
 import logging
 import os
+import random
 
 import torch
-from datasets import load_metric, load_from_disk
+from datasets import load_metric, load_from_disk, load_dataset, Dataset
 from transformers import (
     CanineTokenizer,
     IntervalStrategy,
@@ -26,7 +27,10 @@ from sentiment_analysis import (
     DataArguments,
     CustomTrainer,
     save_predictions_to_pandas_dataframe,
+    remove_neutral_tweets, to_pandas,
 )
+
+NUM_LABELS = 2
 
 SEED = 0
 set_seed(SEED)
@@ -42,8 +46,6 @@ DISTILBERT_MODEL = "distilbert"
 SST2_DATASET_CONFIG = "sst2"
 GLUE_DATASET_NAME = "glue"
 SENT140_DATASET_NAME = "sentiment140"
-
-NUM_LABELS = 2
 
 logger = logging.getLogger(__name__)
 
@@ -76,8 +78,28 @@ def train_model(
         datasets = load_from_disk(path_to_custom_dataset)
     elif dataset_name == SENT140_DATASET_NAME:
         datasets = load_from_disk(path_to_custom_dataset)
-        datasets = datasets.remove_columns(["date", "user", "query"])
-        datasets = datasets.rename_columns({"text": "sentence", "sentiment": "label"})
+        # datasets = datasets.remove_columns(["date", "user", "query"])
+        # datasets = datasets.rename_columns({"text": "sentence", "sentiment": "labels"})
+        #
+        # df_train = to_pandas(datasets["train"])
+        # df_train["labels"] = df_train["labels"].replace(4, 1)
+        # datasets["train"] = Dataset.from_pandas(df_train)
+        # df_train = to_pandas(datasets["test"])
+        # df_train["labels"] = df_train["labels"].replace(4, 1)
+        # datasets["test"] = Dataset.from_pandas(df_train)
+        # df_train = to_pandas(datasets["validation"])
+        # df_train["labels"] = df_train["labels"].replace(4, 1)
+        # datasets["validation"] = Dataset.from_pandas(df_train)
+        # #
+        # #
+        # # # datasets = remove_neutral_tweets(datasets)
+        # # #
+        # all_indexes = datasets["train"].num_rows
+        # all_possibles = [x for x in range(all_indexes)]
+        # selected_indices = random.sample(all_possibles, round(all_indexes*0.04))
+        # datasets["train"] = datasets["train"].select(selected_indices)
+        #
+        # datasets.save_to_disk("/mnt/hdd/sentiment_analysis_140/noisy_data/noisy_data_20")
     else:
         raise NotImplementedError
 
@@ -140,7 +162,7 @@ def train_model(
     )
 
     data_collator = DataCollatorWithPadding(tokenizer, padding=padding)
-    metric = load_metric(dataset_name, dataset_config)
+    metric = load_metric("glue", "sst2")
 
     if eval_only:
         logger.info("Loading own finetuned model")
@@ -332,7 +354,11 @@ if __name__ == "__main__":
         required=True,
     )
     parser.add_argument(
-        "--mode", type=str, help="Evaluation mode", choices=["val", "test"]
+        "--mode",
+        type=str,
+        help="Evaluation mode",
+        choices=["val", "test"],
+        required=True,
     )
 
     args = parser.parse_args()

@@ -5,7 +5,7 @@ from logging import Logger
 import numpy as np
 import pandas as pd
 import torch
-from datasets import Dataset
+from datasets import Dataset, DatasetDict
 from transformers.trainer_utils import PredictionOutput
 
 
@@ -41,3 +41,11 @@ def save_predictions_to_pandas_dataframe(
     save_path = os.path.join(output_dir, f"{model_name}_predictions.csv")
     final_val_df.to_csv(save_path, index=False)
     logger.info(f"Saved predictions at {save_path}")
+
+
+def remove_neutral_tweets(dataset: DatasetDict) -> DatasetDict:
+    for col in dataset.column_names:
+        # Keep only non-neutral tweets
+        non_neutral_ids = np.where(np.array(dataset[col]['sentiment']) != 2)[0]
+        dataset[col] = dataset[col].select(non_neutral_ids)
+    return dataset
