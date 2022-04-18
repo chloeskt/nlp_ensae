@@ -13,8 +13,8 @@ Sentiment Analysis/Classification (SC).
 For QA, we are interested in 5 downstream tasks: simple extractive QA on SQuADv2, generalization in zero-shot transfer
 settings on multilingual data, robustness to noise, domain adaptation and resistance to adversarial attacks.
 
-Fo SC, we are primarily interested in binary classification using the well-known SST-2 dataset. We are also interested in
-more real-life settings dataset (Sentiment140) and robustness to noise on such datasets.
+For SC, we are primarily interested in binary classification using the well-known SST-2 dataset and robustness to noise 
+artificially added to this dataset. We are also interested in more real-life settings dataset (Sentiment140).
 
 Each time the experiment protocol is similar: 
 

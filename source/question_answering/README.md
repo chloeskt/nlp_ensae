@@ -6,7 +6,7 @@ manually the training pipeline for Question Answering for CANINE model, please l
 
 ## Description
 
-In this section, we are interested by the capacities of CANINE versus BERT-like models such as BERT, mBERT and XLM-RoBERTa 
+In this section, we are interested in the capacities of CANINE versus BERT-like models such as BERT, mBERT and XLM-RoBERTa 
 on Question Answering tasks. CANINE is a pre-trained tokenization-free and vocabulary-free encoder, that operates directly 
 on character sequences without explicit tokenization. It seeks to generalize beyond the orthographic forms encountered 
 during pre-training.
@@ -32,6 +32,17 @@ models we have chosen along this study.
 Last, we will stay again in the few-shot learning domain but test the abilities of CANINE to resist to adversarial 
 attacks knowing that it has not been trained for that and that it will only be trained for few epochs and a small number 
 of adversarial examples. 
+
+## Datasets
+
+Datasets splits are as follows:
+
+| **Nb of samples**    | **Training** | **Validation** | **Test** |
+|----------------------|--------------|----------------|----------|
+| SQuADv2              | 130 319      | 10 686         | 1 187    |
+| SQuADv1.1            | 87 599       | 10 570         | -        |
+| XQuAD (per language) | -            | 1 190          | -        |
+
 
 ## Finetuned models
 
@@ -114,13 +125,14 @@ per word ratio close to one and almost no inflectional morphology.
 
 In this experience, the goal is to evaluate the models' robustness of noise. To do so, we created 3 noisy versions of
 the SQuADv2 dataset where the questions have been artificially enhanced with noisy (in our case we chose ``RandomCharAug``
-from ``nlpaug`` library with action `substitute` but in our package 4 other types of noise have been developed - refer to `processing/noisifier.py`).
+from ``nlpaug`` library with action `substitute` but in our package 4 other types of noise have been developed - refer 
+to `noisifier/noisifier.py`).
 
-Three levels of noise were chosen: 10\%, 20\% and 40\% (similar to NLI and Sentiment Analysis experiments). Each word
-gets transformed with probability $p$ into a misspelled version of it (see [nlpaug documentation](https://github.com/makcedward/nlpaug/blob/master/nlpaug/augmenter/char/random.py)
+Three levels of noise were chosen: 10\%, 20\% and 40\% . Each word gets transformed with probability $p$ into a misspelled 
+version of it (see [nlpaug documentation](https://github.com/makcedward/nlpaug/blob/master/nlpaug/augmenter/char/random.py)
 for more information).
 
-The noise is **only** applied to the test set (on SQuADv2) made of 1187 examples. We compared the 5 models we finetuned 
+The noise is **only** applied to the test set (on SQuADv2) made of 1187 examples. We compared the 7 models we finetuned 
 on the clean version of SQuADv2 (first experiment) on these 3 noisy datasets (on for each level of $p$). The following
 table gathers the results (averaged over 3 runs):
 
@@ -188,3 +200,15 @@ and evaluated on the same ones.
 Finally, we observed that CANINE models are much more prone to adversarial attacks (-10F1 points compared to data2vec and 
 BERT). It is yet unclear for us why it is the case. Surely this is due to the fact that CANINE is tokenization-free but, 
 we still need to build intuition on why this has a great impact when evaluated on adversarial samples.
+
+## Discussion
+
+In our zero-shot transfer QA experiments, CANINE does not appear to perform as well as token-based transformers such as 
+mBERT. It might be because it was finetuned on English (analytical language) and hence cannot adapt well in zero-shot 
+transfer especially to isolating languages (Thai, Chinese) and synthetic ones with agglutinative morphology (Turkish) or 
+non-concatenative (Arabic). CANINE works decently well for languages close enough to English, e.g. Spanish or German. 
+While mBERT and CANINE have both been pretrained on the top 104 languages with the largest Wikipedia using a MLM objective, 
+XLM-RoBERTa was pretrained on 2.5TB of filtered CommonCrawl data containing 100 languages. This might be a confounding 
+variable. Also, CANINE-S seems to be robust to high level of artificial noise and even slightly better than BERT and mBERT. 
+Finally, one might also note that multilingual model do, overall, have better capacities of generalization and better 
+scores on these Question Answering tasks.

@@ -79,8 +79,26 @@ def train_model(
         datasets = load_from_disk(path_to_custom_dataset)
     elif dataset_name == SENT140_DATASET_NAME:
         datasets = load_from_disk(path_to_custom_dataset)
+        # datasets = load_dataset("sentiment140")
+        # print(datasets)
+        # datasets = remove_neutral_tweets(datasets)
+        # print(datasets)
         # datasets = datasets.remove_columns(["date", "user", "query"])
         # datasets = datasets.rename_columns({"text": "sentence", "sentiment": "labels"})
+        #
+        # all_indexes = datasets["train"].num_rows
+        # all_possibles = [x for x in range(all_indexes)]
+        # selected_indices = random.sample(all_possibles, round(all_indexes * 0.01))
+        # datasets["validation"] = datasets["train"].select(selected_indices)
+        #
+        # selected_indices = set(selected_indices)
+        # train_indices = [x for x in all_possibles if x not in selected_indices]
+        # datasets["train"] = datasets["train"].select(train_indices)
+        #
+        # all_indexes = datasets["train"].num_rows
+        # all_possibles = [x for x in range(all_indexes)]
+        # selected_indices = random.sample(all_possibles, round(all_indexes * 0.04))
+        # datasets["train"] = datasets["train"].select(selected_indices)
         #
         # df_train = to_pandas(datasets["train"])
         # df_train["labels"] = df_train["labels"].replace(4, 1)
@@ -91,16 +109,9 @@ def train_model(
         # df_train = to_pandas(datasets["validation"])
         # df_train["labels"] = df_train["labels"].replace(4, 1)
         # datasets["validation"] = Dataset.from_pandas(df_train)
-        # #
-        # #
-        # # # datasets = remove_neutral_tweets(datasets)
-        # # #
-        # all_indexes = datasets["train"].num_rows
-        # all_possibles = [x for x in range(all_indexes)]
-        # selected_indices = random.sample(all_possibles, round(all_indexes*0.04))
-        # datasets["train"] = datasets["train"].select(selected_indices)
         #
-        # datasets.save_to_disk("/mnt/hdd/sentiment_analysis_140/noisy_data/noisy_data_20")
+        # datasets.save_to_disk("/Users/chloesekkat/Downloads")
+        raise
     else:
         raise NotImplementedError
 
@@ -217,9 +228,9 @@ def train_model(
         logger.info("START TRAINING")
         trainer.train()
 
-    # logger.info("START FINAL EVALUATION")
-    # trainer.evaluate()
-    # logger.info("Final evaluation done")
+    logger.info("START FINAL EVALUATION")
+    trainer.evaluate()
+    logger.info("Final evaluation done")
 
     logger.info("GET PREDICTIONS")
     test_predictions = trainer.predict(mode=mode)
