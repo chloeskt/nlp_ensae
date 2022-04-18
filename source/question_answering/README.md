@@ -42,6 +42,8 @@ Datasets splits are as follows:
 | SQuADv2              | 130 319      | 10 686         | 1 187    |
 | SQuADv1.1            | 87 599       | 10 570         | -        |
 | XQuAD (per language) | -            | 1 190          | -        |
+| CUAD                 | 224          | -              | 656      |
+| dynabench/qa         | 200          | -              | 600      |
 
 
 ## Finetuned models
