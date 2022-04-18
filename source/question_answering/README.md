@@ -75,7 +75,7 @@ They were trained with the following parameters:
 | **XLM-RoBERTa** 	|     78.3     	|     75.12    	|
 
 
-In this settings, CANINE performs decently well  (especially CANINE-c i.e. CANINE trained with Autoregressive Character Loss).
+In this settings, CANINE performs decently well (especially CANINE-c i.e. CANINE trained with Autoregressive Character Loss).
 
 ### Zero-shot transfer
 

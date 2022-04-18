@@ -26,17 +26,46 @@ Finally, we provide a look into the prediction errors of all models on the SST2 
 
 ## Datasets
 
+Datasets splits are as follows:
 
+|              	| Train 	| Validation 	| Test 	|
+|:------------:	|:-----:	|:----------:	|:----:	|
+|     SST2     	| 63981 	|    3368    	|  872 	|
+| Sentiment140 	| 63360 	|    16000   	|  359 	|
+
+
+Notice that we did not took the whole Sentiment140 dataset as it was too costly to train models on ot.
 
 ## Finetuned models
 
-Table:
+Finetuned models both for SST2 and Sentiment140 were trained with the following parameters:
+
+|             	| Batch size 	| Learning Rate 	| Weigh decay 	| Nb of epochs 	| Number of training examples 	| Number of validation examples 	| Lr scheduler 	| Warmup ratio 	|
+|-------------	|------------	|---------------	|-------------	|--------------	|-----------------------------	|-------------------------------	|--------------	|--------------	|
+| RoBERTa     	| 12         	| 2e-5          	| 1e-2        	| 5            	| 63981                       	| 872                           	| linear       	| 0.1          	|
+| BERT        	| 12         	| 2e-5          	| 1e-2        	| 5            	| 63981                       	| 872                           	| linear       	| 0.1          	|
+| DistilBERT  	| 12         	| 2e-5          	| 1e-2        	| 5            	| 63981                       	| 872                           	| linear       	| 0.1          	|
+| mBERT       	| 12         	| 2e-5          	| 1e-2        	| 5            	| 63981                       	| 872                           	| linear       	| 0.1          	|
+| XLM-ROBERTA 	| 12         	| 2e-5          	| 1e-2        	| 5            	| 63981                       	| 872                           	| linear       	| 0.1          	|
+| CANINE-c    	| 6          	| 2e-5          	| 1e-2        	| 5            	| 63981                       	| 872                           	| linear       	| 0.1          	|
+| CANINE-s    	| 6          	| 2e-5          	| 1e-2        	| 5            	| 63981                       	| 872                           	| linear       	| 0.1          	|
 
 ## Results \& Observations
 
 ### Sentiment Classification on benchmark SST2 dataset
 
+|   Accuracy  	| Val set 	| Test set 	|
+|:-----------:	|:-------:	|:--------:	|
+|     BERT    	|   0.94  	|   0.93   	|
+|   RoBERTa   	|   0.94  	|   0.94   	|
+|  DistilBERT 	|   0.94  	|   0.91   	|
+|    mBERT    	|   0.93  	|   0.88   	|
+| XLM-RoBERTa 	|   0.92  	|   0.92   	|
+|   CANINE-C  	|   0.93  	|   0.86   	|
+|   CANINE-S  	|   0.92  	|   0.85   	|
 
+In this setting, both CANINE-S and CANINE-C perform decently well on the validation set but not as much as the test set.
+There are 8 percentage points of difference between CANINE-C and RoBERTa for instance.
 
 ### Robustness to noise
 
