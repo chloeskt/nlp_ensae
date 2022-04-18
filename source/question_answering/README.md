@@ -211,4 +211,5 @@ While mBERT and CANINE have both been pretrained on the top 104 languages with t
 XLM-RoBERTa was pretrained on 2.5TB of filtered CommonCrawl data containing 100 languages. This might be a confounding 
 variable. Also, CANINE-S seems to be robust to high level of artificial noise and even slightly better than BERT and mBERT. 
 Finally, one might also note that multilingual model do, overall, have better capacities of generalization and better 
-scores on these Question Answering tasks.
+scores on these Question Answering tasks. Finally, it seems that when artificial noise levels are high, CANINE-S is 
+preferable to BERT as it is fairly robust to this type of noise.
