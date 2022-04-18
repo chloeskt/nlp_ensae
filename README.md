@@ -18,13 +18,14 @@ artificially added to this dataset. We are also interested in more real-life set
 
 Each time the experiment protocol is similar: 
 
-- encode the dataset using the tokenizer associated to each model
+- set seed (for reproducibility)
+- encode the dataset using the tokenizer associated to each model (proposed by HuggingFace)
 - fed the tokenized data to the model
 - training/evaluation loop
 - monitor validation loss/accuracy
 - use early stopping
 - predict/evaluation on test set once the best model has been found
-- analyse the predictions and errors of your model
+- analyse the predictions and errors of the model
 - compare to other models
 - build intuition
 
