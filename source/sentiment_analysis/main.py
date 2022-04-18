@@ -69,6 +69,7 @@ def train_model(
     padding: str,
     path_to_custom_dataset: str,
     mode: str,
+    save_predictions: bool,
 ) -> None:
     logger.info(f"Loading dataset {dataset_name}")
     if dataset_name == GLUE_DATASET_NAME:
@@ -202,7 +203,6 @@ def train_model(
     logger.info("Predictions done")
     results = trainer.evaluate_predictions(test_predictions)
     logger.info(f"Predictions accuracy {results['accuracy']}")
-    save_predictions = True
     if save_predictions:
         save_predictions_to_pandas_dataframe(
             test_predictions,
@@ -338,6 +338,12 @@ if __name__ == "__main__":
         choices=["val", "test"],
         required=True,
     )
+    parser.add_argument(
+        "--save_predictions",
+        type=bool,
+        help="Whether or not to save the predictions into a csv file",
+        default=False
+    )
 
     args = parser.parse_args()
 
@@ -362,4 +368,5 @@ if __name__ == "__main__":
         padding=args.padding,
         path_to_custom_dataset=args.path_to_custom_dataset,
         mode=args.mode,
+        save_predictions=args.save_predictions,
     )
