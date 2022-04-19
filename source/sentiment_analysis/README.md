@@ -22,6 +22,15 @@ million of tweets hence the language used is more informal, prone to abbreviatio
 CANINE paper, CANINE is expected to do better than regular token-based models which are limited by out-of-vocabulary
 words. 
 
+Following the previous experiment, we decided to test how CANINE would perform on Sentiment140 without having been train
+on it. It would allow us to see how CANINE and other models perform when faced with "natural" noise (language in tweets)
+and when the domain is different (in the sense that the topic and the way of writing/speaking are different). Additionally,
+we can quantify the gain in accuracy from directly training on Sentiment140 compared to doing zero-shot transfer.
+
+As CANINE has been pre-trained on multilingual data, it could be worth it to analyze its abilities on other languages
+than English, especially since it is tokenization-free and hence, theoretically, should be able to adapt more easily to
+languages with richer morphology. To test that, we did zero-shot transfer learning on multilingual data (MARC dataset).
+
 Finally, we provide a look into the prediction errors of all models on the SST2 test set.
 
 ## Datasets
@@ -124,10 +133,11 @@ In this experience we would like to see how CANINE models perform when they are 
 **not** trained on. Compared to the previous experience where models where trained on Sentiment140, here models are 
 trained on SST2 but evaluated on validation and test set from Sentiment140. 
 
-In the previous task, CANINE models were not the best performing one. Actually, with mBERT, they were the last ones. 
-Here we are evaluating something different: the ability for a model to adapt to another target domain in a zero-shot
-transfer setting. It might be that, in real life settings, one has access to a clean benchmark-type dataset (such as SST2)
-but wants to do inference on a dataset whose subject is quite different and full of misspellings and grammar errors. 
+In the previous task, CANINE models were not the best performing one. Actually, with mBERT, they were the last ones. Here 
+we are evaluating something different: the ability for a model to adapt to another domain (in the sense that the topic 
+and the way of writing/speaking are different) in a zero-shot transfer setting. It might be that, in real life settings, 
+one has access to a clean benchmark-type dataset (such as SST2) but wants to do inference on a dataset whose subject is
+quite different and full of misspellings and grammar errors. 
 
 Results are reported in the following table:
 
@@ -164,6 +174,17 @@ considered. For each language, this gives us 160000 training samples, 4000 valid
 
 Results are given in the following table:
 
+|                 	|  **French** 	|              	|  **German** 	|              	| **Japanese** 	|              	| **Chinese** 	|              	|
+|:---------------:	|:-----------:	|:------------:	|:-----------:	|:------------:	|:------------:	|:------------:	|:-----------:	|:------------:	|
+|                 	| **Val set** 	| **Test set** 	| **Val set** 	| **Test set** 	|  **Val set** 	| **Test set** 	| **Val set** 	| **Test set** 	|
+|    **mBERT**    	|     0.71    	|     0.70     	|     0.66    	|     0.66     	|     0.56     	|     0.55     	|     0.58    	|     0.59     	|
+| **XLM-RoBERTa** 	|     0.87    	|     0.86     	|     0.86    	|     0.87     	|     0.87     	|     0.85     	|     0.80    	|     0.79     	|
+|   **CANINE-C**  	|     0.70    	|     0.69     	|     0.59    	|     0.58     	|     0.50     	|     0.50     	|     0.57    	|     0.55     	|
+|   **CANINE-S**  	|     0.71    	|     0.70     	|     0.61    	|     0.61     	|     0.52     	|     0.52     	|     0.57    	|     0.57     	|
 
+CANINE-S is similar to mBERT for French and Chinese data. Overall XLM-RoBERTa is extremely better than other models. 
+Note that its pre-training strategy is different from the one of mBERT and CANINE. Indeed, while mBERT and CANINE have both been 
+pretrained on the top 104 languages with the largest Wikipedia using a MLM objective, XLM-RoBERTa was pretrained on 2.5TB 
+of filtered CommonCrawl data containing 100 languages. This might be a confounding variable.
 
 ### Analysis of prediction errors on SST2 dataset
