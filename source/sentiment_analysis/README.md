@@ -112,7 +112,7 @@ are better to handle this type of artificial noise, RoBERTa being the best of al
 The following experience is meant to evaluate the performances of the various models on a more challenging dataset: 
 Sentiment140. This dataset is made of 1.6 million of tweets, all in English. The language used is very different from the
 one in SST2 as it is made of more abbreviations, colloquialisms, slang, etc. Therefore it is expected to be hard for the
-models has handle such text (which is "naturally" noisy). CANINE has a theoretical advantage on such dataset due to the
+models to handle such text (which is "naturally" noisy). CANINE has a theoretical advantage on such dataset due to the
 fact that it is tokenizer-free and operates at the character level.
 
 The following table reports the results we obtained when finetuning all models on the (smaller) training set of 63360 examples.

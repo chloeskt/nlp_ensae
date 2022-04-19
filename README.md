@@ -43,7 +43,8 @@ Here is a list of the datasets we considered, depending on the task.
 ## Sentiment Analysis
 
 - SST2 (part of GLUE benchmark)
-- Sentiment140 (1.6 billon of tweets)
+- Sentiment140 (1.6 million of tweets)
+- Multilingual Amazon Reviews Corpus
 
 # Descriptive statistics
 
@@ -99,14 +100,14 @@ Link to the Colab notebook which walks through the errors committed by our model
 
 All pretrained models and custom datasets are available here:
 
-- Question Answering
+- [Question Answering](https://drive.google.com/drive/folders/1L9Su25qatgdmoz-rZbeY_tA2bXq9T9EG?usp=sharing)
 - Sentiment Classification 
 
 - [ ] TODO: add links
 
 # Experiments \& Results
 
-To know more about the experiments we have done, we strongly advise you to look at each downstream task ``README.md``
+To know more about the experiments we have done, we **strongly** advise you to look at each downstream task ``README.md``
 
 - [QA](https://github.com/chloeskt/nlp_ensae/blob/main/source/question_answering/README.md)
 - [SA](https://github.com/chloeskt/nlp_ensae/blob/main/source/sentiment_analysis/README.md)
@@ -116,3 +117,6 @@ These ``README.md`` contain relevant information to each task.
 # Future directions
 
 - Work on tokenizers
+- More hyperparameters search for CANINE models (could not afford to do that during this project due to limited time and
+compute resources)
+
