@@ -149,7 +149,7 @@ table gathers the results (averaged over 3 runs):
 |   **CANINE-C**  	|        69,64        	|  66,89 	|        67,88        	|  65,43 	|        66,03        	|  63,9  	|
 |   **CANINE-S**  	|        72,25        	|  69,65 	|         70,3        	|  68,03 	|        67,18        	|  64,6  	|
 
-Overall XLM-RoBERTa is a very powerful model, it is the best in all experiences we attempted. However it is worth 
+Overall RoBERTa is a very powerful model, it is the best in all experiences we attempted. However it is worth 
 highlighting that once the noise level is high (i.e. > 40\%), both CANINE-C and CANINE-S perform similarly to BERT-like 
 models. CANINE-S is even better than mBERT and BERT. CANINE-S does seem to fairly robust to high level of 
 artificial noise. 

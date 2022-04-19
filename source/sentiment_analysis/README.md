@@ -28,10 +28,11 @@ Finally, we provide a look into the prediction errors of all models on the SST2 
 
 Datasets splits are as follows:
 
-|              	| Train 	| Validation 	| Test 	|
-|:------------:	|:-----:	|:----------:	|:----:	|
-|     SST2     	| 63981 	|    3368    	|  872 	|
-| Sentiment140 	| 63360 	|    16000   	|  359 	|
+|                      	                       | Train 	  | Validation 	 | Test 	 |
+|:--------------------------------------------:|:--------:|:------------:|:------:|
+|                  SST2     	                  | 63981 	  |  3368    	   | 872 	  |
+|                Sentiment140 	                | 63360 	  |  16000   	   | 359 	  |
+| Amazon Reviews Multilingual (per language) 	 | 160000 	 |   4000   	   | 4000 	 |
 
 
 Notice that we did not took the whole Sentiment140 dataset as it was too costly to train models on ot.
@@ -65,40 +66,104 @@ Finetuned models both for SST2 and Sentiment140 were trained with the following 
 |   CANINE-S  	|   0.92  	|   0.85   	|
 
 In this setting, both CANINE-S and CANINE-C perform decently well on the validation set but not as much as the test set.
-There are 8 percentage points of difference between CANINE-C and RoBERTa for instance.
+There are 8 percentage points of difference between CANINE-C and RoBERTa for instance. mBERT has similar behavior than
+the two CANINE models.
 
 ### Robustness to noise
 
-in this experience, the goal is to evaluate the models' robustness of noise. To do so, we created 3 noisy versions of the
+In this experience, the goal is to evaluate the models' robustness of noise. To do so, we created 3 noisy versions of the
 SST2 dataset where the sentences have been artificially enhanced with noisy (in our case we chose ``RandomCharAug``
 from ``nlpaug`` library with action `substitute` but in our package 4 other types of noise have been developed - refer 
 to `noisifier/noisifier.py`).
 
-Three levels of noise were chosen: 10\%, 20\% and 40\% . Each word gets transformed with probability $p$ into a misspelled version of it (see [nlpaug documentation](https://github.com/makcedward/nlpaug/blob/master/nlpaug/augmenter/char/random.py)
+Three levels of noise were chosen: 10\%, 20\% and 40\% . Each word gets transformed with probability $p$ into a misspelled 
+version of it (see [nlpaug documentation](https://github.com/makcedward/nlpaug/blob/master/nlpaug/augmenter/char/random.py)
 for more information).
 
 The noise is **only** applied to the SST2 validation and test sets made of 3368 and 872 examples respectively. 
 We compared the 7 models we finetuned on the clean version of SST2 (first experiment) on these 3 noisy datasets (on for 
 each level of $p$). The following table gathers the results (averaged over 3 runs):
 
-/////////////////////////
+|             	| Noise level 10% 	|          	| Noise level 20% 	|          	| Noise level 40% 	|          	|
+|:-----------:	|:---------------:	|:--------:	|:---------------:	|:--------:	|:---------------:	|:--------:	|
+|             	|     Val set     	| Test set 	|     Val set     	| Test set 	|     Val set     	| Test set 	|
+|     BERT    	|       0.88      	|   0.87   	|       0.85      	|   0.82   	|       0.80      	|   0.80   	|
+|   RoBERTa   	|       0.88      	|   0.89   	|       0.87      	|   0.85   	|       0.83      	|   0.82   	|
+|  DistilBERT 	|       0.85      	|   0.82   	|       0.82      	|   0.79   	|       0.76      	|   0.76   	|
+|    mBERT    	|       0.88      	|   0.82   	|       0.85      	|   0.80   	|       0.80      	|   0.76   	|
+| XLM-RoBERTa 	|       0.89      	|   0.85   	|       0.86      	|   0.83   	|       0.81      	|   0.81   	|
+|   CANINE-C  	|       0.86      	|   0.80   	|       0.83      	|   0.76   	|       0.79      	|   0.74   	|
+|   CANINE-S  	|       0.85      	|   0.80   	|       0.83      	|   0.77   	|       0.78      	|   0.74   	|
+
+Both CANINE models have a better performance than DistilBERT for a high level of noise (>= 40\%). However all other models
+are better to handle this type of artificial noise, RoBERTa being the best of all. 
 
 ### Sentiment Classification on more challenging Sentiment140 dataset (tweets)
 
-//////////////////////
+The following experience is meant to evaluate the performances of the various models on a more challenging dataset: 
+Sentiment140. This dataset is made of 1.6 million of tweets, all in English. The language used is very different from the
+one in SST2 as it is made of more abbreviations, colloquialisms, slang, etc. Therefore it is expected to be hard for the
+models has handle such text (which is "naturally" noisy). CANINE has a theoretical advantage on such dataset due to the
+fact that it is tokenizer-free and operates at the character level.
+
+The following table reports the results we obtained when finetuning all models on the (smaller) training set of 63360 examples.
+
+|                 	| **Val set** 	 | **Test set** 	 |
+|:---------------:	|:-------------:|:--------------:|
+|     **BERT**    	|   0.84    	   |   0.86     	   |
+|   **RoBERTa**   	|   0.87    	   |   0.86     	   |
+|  **DistilBERT** 	|   0.83    	   |   0.85     	   |
+|    **mBERT**    	|   0.79    	   |   0.78     	   |
+| **XLM-RoBERTa** 	|   0.81    	   |   0.80     	   |
+|   **CANINE-C**  	|   0.79    	   |   0.78     	   |
+|   **CANINE-S**  	|   0.80    	   |   0.79     	   |
 
 ### Zero-shot transfer learning and domain adaptation from SST2 to Sentiment140
 
-Models are trained on SST2 but evaluated on validation and test set from Sentiment140: see how models perform when they
-are tested on a very different dataset. CANINE models do not perform well on this task. They have -9 percentage point of 
-accuracy compared to RoBERTa for instance (best performing model on this task) on the validation set. 
+In this experience we would like to see how CANINE models perform when they are faced with "natural" noise that they were
+**not** trained on. Compared to the previous experience where models where trained on Sentiment140, here models are 
+trained on SST2 but evaluated on validation and test set from Sentiment140. 
 
-We noticed that mBERT has more difficulties than other BERT-like models on Sentiment140 dataset overall. 
+In the previous task, CANINE models were not the best performing one. Actually, with mBERT, they were the last ones. 
+Here we are evaluating something different: the ability for a model to adapt to another target domain in a zero-shot
+transfer setting. It might be that, in real life settings, one has access to a clean benchmark-type dataset (such as SST2)
+but wants to do inference on a dataset whose subject is quite different and full of misspellings and grammar errors. 
 
-### Zero-shot transfer learning on DE, FR, JA and ZH
+Results are reported in the following table:
 
-https://huggingface.co/datasets/amazon_reviews_multi
+|                 	| **Val set** 	| **Test set** 	|
+|:---------------:	|:-----------:	|:------------:	|
+|     **BERT**    	|     0.72    	|     0.84     	|
+|   **RoBERTa**   	|     0.73    	|     0.88     	|
+|  **DistilBERT** 	|     0.71    	|     0.82     	|
+|    **mBERT**    	|     0.68    	|     0.76     	|
+| **XLM-RoBERTa** 	|     0.72    	|     0.83     	|
+|   **CANINE-C**  	|     0.64    	|     0.77     	|
+|   **CANINE-S**  	|     0.64    	|     0.73     	|
 
-1/2 stars = negative. 4/5 = positive.
+CANINE models do not perform well on this task. They have -9 percentage point of accuracy compared to RoBERTa for 
+instance (best performing model on this task) on the validation set. We noticed that mBERT has more difficulties than 
+other BERT-like models on Sentiment140 dataset overall. Again, CANINE and mBERT have similar behavior.
+
+### Zero-shot transfer learning on multlingual data
+
+This experiment builds on the idea that CANINE is expected to perform better on languages with a different morphology
+than English, for instance on non-concatenative morphology (such as Arabic and Hebrew), compounding (such as German and
+Japanese), vowel harmony (Finnish), etc. Moreover, it is known that splitting on whitespaces (which is often done in most
+tokenizer - note that SentencePiece has an option to skip whitespace splitting) is not adapted to languages such as Thai 
+or Chinese. 
+
+In this experience, models have been finetuned on the English dataset SST2 and are only evaluated both on validation and
+tests sets of 4 languages from the Multilingual Amazon Reviews Corpus ([MARC](https://arxiv.org/abs/2010.02573)). We 
+considered the four following language: German, French, Japanese and Chinese for their morphological properties. 
+
+This dataset contains for each review the number of stars associated by the reviewer. To derive positive/negative
+sentiment from this, we considered that if 1 or 2 stars only have been associated to the review, the sentiment is 
+negative. While if 4 or 5 stars have been chosen, the review is positive. Neutral reviews, with 3 stars, were not 
+considered. For each language, this gives us 160000 training samples, 4000 validation samples and 4000 test samples.
+
+Results are given in the following table:
+
+
 
 ### Analysis of prediction errors on SST2 dataset

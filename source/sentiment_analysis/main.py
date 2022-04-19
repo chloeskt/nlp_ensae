@@ -26,7 +26,9 @@ from sentiment_analysis import (
     TrainerArguments,
     DataArguments,
     CustomTrainer,
-    save_predictions_to_pandas_dataframe, remove_neutral_tweets, to_pandas,
+    save_predictions_to_pandas_dataframe,
+    remove_neutral_tweets,
+    to_pandas,
 )
 
 NUM_LABELS = 2
@@ -45,6 +47,7 @@ DISTILBERT_MODEL = "distilbert"
 SST2_DATASET_CONFIG = "sst2"
 GLUE_DATASET_NAME = "glue"
 SENT140_DATASET_NAME = "sentiment140"
+AMAZON_MULTI_DATASET_NAME = "amazon_reviews_multi"
 
 logger = logging.getLogger(__name__)
 
@@ -77,6 +80,8 @@ def train_model(
         logger.info(f"Chosen configuration is {dataset_config}")
         datasets = load_from_disk(path_to_custom_dataset)
     elif dataset_name == SENT140_DATASET_NAME:
+        datasets = load_from_disk(path_to_custom_dataset)
+    elif dataset_name == AMAZON_MULTI_DATASET_NAME:
         datasets = load_from_disk(path_to_custom_dataset)
     else:
         raise NotImplementedError
@@ -296,7 +301,7 @@ if __name__ == "__main__":
         "--dataset_name",
         type=str,
         default="glue",
-        choices=[GLUE_DATASET_NAME, SENT140_DATASET_NAME],
+        choices=[GLUE_DATASET_NAME, SENT140_DATASET_NAME, AMAZON_MULTI_DATASET_NAME],
         required=True,
         help="Name of the dataset to train/evaluate on",
     )
@@ -343,7 +348,7 @@ if __name__ == "__main__":
         "--save_predictions",
         type=bool,
         help="Whether or not to save the predictions into a csv file",
-        default=False
+        default=False,
     )
 
     args = parser.parse_args()
@@ -371,3 +376,5 @@ if __name__ == "__main__":
         mode=args.mode,
         save_predictions=args.save_predictions,
     )
+
+#python3 main.py --model_name xlm_roberta --learning_rate 2e-5 --weight_decay 1e-2 --type_lr_scheduler linear --warmup_ratio 0.1 --save_strategy steps --save_steps 10000 --num_epochs 3 --early_stopping_patience 1 --output_dir /mnt/hdd/sentiment_analysis_140 --dataset_name sentiment140 --batch_size 8 --truncation True --padding max_length --path_to_custom_dataset /mnt/hdd/sentiment_analysis_140/sentiment140new --mode test --device cuda
