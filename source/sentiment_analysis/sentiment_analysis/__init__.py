@@ -1,4 +1,5 @@
 from .dataset_tokenizers import DatasetTokenizer
+from .dataset import AmazonMultilingual
 from .trainers import CustomTrainer, DataArguments, TrainerArguments
 from .models import Model, CanineSA
 from .utils import (

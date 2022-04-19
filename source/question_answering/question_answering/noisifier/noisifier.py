@@ -8,11 +8,6 @@ import nlpaug.augmenter.word as naw
 from nlpaug import Augmenter
 from transformers import HfArgumentParser
 
-from question_answering.utils import set_seed
-
-SEED = 0
-set_seed(SEED)
-
 
 @dataclass
 class NoisifierArguments:

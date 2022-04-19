@@ -70,21 +70,35 @@ There are 8 percentage points of difference between CANINE-C and RoBERTa for ins
 ### Robustness to noise
 
 in this experience, the goal is to evaluate the models' robustness of noise. To do so, we created 3 noisy versions of the
-SST2 dataset where the sentences have been artificially enhanced with noisy (in our case we chose ``KeyboardAug``
-from ``nlpaug`` library but in our package 4 other types of noise have been developed - refer to `noisifier/noisifier.py`).
+SST2 dataset where the sentences have been artificially enhanced with noisy (in our case we chose ``RandomCharAug``
+from ``nlpaug`` library with action `substitute` but in our package 4 other types of noise have been developed - refer 
+to `noisifier/noisifier.py`).
 
-Three levels of noise were chosen: 10\%, 20\% and 40\% . Each word
-gets transformed with probability $p$ into a misspelled version of it (see [nlpaug documentation](https://github.com/makcedward/nlpaug/blob/master/nlpaug/augmenter/char/random.py)
+Three levels of noise were chosen: 10\%, 20\% and 40\% . Each word gets transformed with probability $p$ into a misspelled version of it (see [nlpaug documentation](https://github.com/makcedward/nlpaug/blob/master/nlpaug/augmenter/char/random.py)
 for more information).
 
 The noise is **only** applied to the SST2 validation and test sets made of 3368 and 872 examples respectively. 
 We compared the 7 models we finetuned on the clean version of SST2 (first experiment) on these 3 noisy datasets (on for 
 each level of $p$). The following table gathers the results (averaged over 3 runs):
 
+/////////////////////////
+
 ### Sentiment Classification on more challenging Sentiment140 dataset (tweets)
+
+//////////////////////
 
 ### Zero-shot transfer learning and domain adaptation from SST2 to Sentiment140
 
+Models are trained on SST2 but evaluated on validation and test set from Sentiment140: see how models perform when they
+are tested on a very different dataset. CANINE models do not perform well on this task. They have -9 percentage point of 
+accuracy compared to RoBERTa for instance (best performing model on this task) on the validation set. 
+
+We noticed that mBERT has more difficulties than other BERT-like models on Sentiment140 dataset overall. 
+
+### Zero-shot transfer learning on DE, FR, JA and ZH
+
+https://huggingface.co/datasets/amazon_reviews_multi
+
+1/2 stars = negative. 4/5 = positive.
+
 ### Analysis of prediction errors on SST2 dataset
-
-
