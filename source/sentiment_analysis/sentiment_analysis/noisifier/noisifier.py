@@ -2,9 +2,9 @@ import random
 from dataclasses import dataclass, field
 from typing import Optional
 
-import datasets
 import nlpaug.augmenter.char as nac
 import nlpaug.augmenter.word as naw
+from datasets import load_from_disk, DatasetDict, Dataset
 from nlpaug import Augmenter
 from transformers import HfArgumentParser
 
@@ -15,8 +15,12 @@ class NoisifierArguments:
     Arguments needed to noisify SQuADv2-like datasets.
     """
 
+    path_to_custom_dataset: str = field(
+        default=None, metadata={"help": "Path towards custom dataset"}
+    )
     dataset_name: str = field(
-        default=None, metadata={"help": "Name of the SQuAD-like dataset"}
+        default=None,
+        metadata={"help": "Name of the dataset. Either sst2 or sentiment140"},
     )
     output_dir: str = field(
         default=None,
@@ -55,12 +59,14 @@ class NoisifierArguments:
 class Noisifier:
     def __init__(
         self,
-        datasets: datasets.dataset_dict.DatasetDict,
+        datasets: DatasetDict,
+        dataset_name: str,
         level: float,
         type: str,
         action: Optional[str],
     ) -> None:
         self.datasets = datasets
+        self.dataset_name = dataset_name
         self.level = level
         self.type = type
         self.action = action
@@ -87,38 +93,29 @@ class Noisifier:
         else:
             raise NotImplementedError
 
-    def _augment_question(
-        self, row: datasets.arrow_dataset.Example
-    ) -> datasets.arrow_dataset.Example:
-        # Noise can only be applied to the question
+    def _augment_text(self, row: Dataset) -> Dataset:
+        if self.dataset_name == "sst2":
+            text = "sentence"
+        elif self.dataset_name == "sentiment140":
+            text = "text"
+        else:
+            raise NotImplementedError
         augmenter = self._get_augmenter()
         if random.random() < self.level:
-            row["question"] = augmenter.augment(row["question"])
+            row[text] = augmenter.augment(row[text])
         return row
 
     def augment(self):
         if (
-            "validation" in self.datasets.column_names
-            and "train" not in self.datasets.column_names
-        ):
-            self.datasets["validation"] = self.datasets["validation"].map(
-                self._augment_question
-            )
-        elif (
             "train" in self.datasets.column_names
             and "validation" in self.datasets.column_names
+            and "test" in self.datasets.column_names
         ):
-            self.datasets["train"] = self.datasets["train"].map(self._augment_question)
+            self.datasets["train"] = self.datasets["train"].map(self._augment_text)
             self.datasets["validation"] = self.datasets["validation"].map(
-                self._augment_question
+                self._augment_text
             )
-        elif (
-            "id"
-            and "context"
-            and "question"
-            and "answers" in self.datasets.column_names
-        ):
-            self.datasets = self.datasets.map(self._augment_question)
+            self.datasets["test"] = self.datasets["test"].map(self._augment_text)
         else:
             raise NotImplementedError
         return self.datasets
@@ -127,10 +124,11 @@ class Noisifier:
 if __name__ == "__main__":
     parser = HfArgumentParser(NoisifierArguments)
     args = parser.parse_args_into_dataclasses()[0]
-    datasets = datasets.load_dataset(args.dataset_name)
+    datasets = load_from_disk(args.path_to_custom_dataset)
 
     noisifier = Noisifier(
         datasets=datasets,
+        dataset_name=args.dataset_name,
         level=args.noise_level,
         type=args.augmenter_type,
         action=args.action,
@@ -139,7 +137,7 @@ if __name__ == "__main__":
     new_datasets = noisifier.augment()
 
     # saving
-    print("saving noisy dataset dict")
+    print(f"saving noisy dataset dict at {args.output_dir}")
     new_datasets.save_to_disk(args.output_dir)
     print(new_datasets)
 
