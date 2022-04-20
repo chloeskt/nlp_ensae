@@ -103,8 +103,6 @@ All pretrained models and custom datasets are available here:
 - [Question Answering](https://drive.google.com/drive/folders/1L9Su25qatgdmoz-rZbeY_tA2bXq9T9EG?usp=sharing)
 - Sentiment Classification 
 
-- [ ] TODO: add links
-
 # Experiments \& Results
 
 To know more about the experiments we have done, we **strongly** advise you to look at each downstream task ``README.md``
@@ -113,6 +111,11 @@ To know more about the experiments we have done, we **strongly** advise you to l
 - [SA](https://github.com/chloeskt/nlp_ensae/blob/main/source/sentiment_analysis/README.md)
 
 These ``README.md`` contain relevant information to each task. 
+
+You can also take a look at the notebooks we have created, they serve as showcase for our work:
+
+- <a href="https://colab.research.google.com/drive/1z8RzgzqnF3SCF1y5O9RuKJkVZgMZLQaE?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> for Question Answering
+- ...
 
 # Future directions
 
