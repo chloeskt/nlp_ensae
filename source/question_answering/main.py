@@ -103,22 +103,24 @@ def train_model(
 
     logger.info(f"Preparing for model {model_name}")
     if model_name in [CANINE_C_MODEL, CANINE_S_MODEL]:
-        df_train = to_pandas(datasets["train"])
+        if "train" in datasets.column_names:
+            df_train = to_pandas(datasets["train"])
+
         df_validation = to_pandas(datasets["validation"])
 
         logger.info(f"Removing examples longer than threshold for model {model_name}")
-        df_train = remove_examples_longer_than_threshold(
-            df_train, max_length=max_length * 2, doc_stride=doc_stride
-        )
+        if "train" in datasets.column_names:
+            df_train = remove_examples_longer_than_threshold(
+                df_train, max_length=max_length * 2, doc_stride=doc_stride
+            )
         df_validation = remove_examples_longer_than_threshold(
             df_validation, max_length=max_length * 2, doc_stride=doc_stride
         )
         logger.info("Done removing examples longer than threshold")
 
-        datasets["train"] = Dataset.from_pandas(df_train)
+        if "train" in datasets.column_names:
+            datasets["train"] = Dataset.from_pandas(df_train)
         datasets["validation"] = Dataset.from_pandas(df_validation)
-
-        del df_train, df_validation
 
         pretrained_model_name = f"google/{model_name}"
         tokenizer = CanineTokenizer.from_pretrained(pretrained_model_name)
