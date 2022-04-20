@@ -1,10 +1,9 @@
 import argparse
 import logging
 import os
-import random
 
 import torch
-from datasets import load_metric, load_from_disk, load_dataset, Dataset
+from datasets import load_metric, load_from_disk
 from transformers import (
     CanineTokenizer,
     IntervalStrategy,
@@ -27,8 +26,6 @@ from sentiment_analysis import (
     DataArguments,
     CustomTrainer,
     save_predictions_to_pandas_dataframe,
-    remove_neutral_tweets,
-    to_pandas,
 )
 
 NUM_LABELS = 2
@@ -376,5 +373,3 @@ if __name__ == "__main__":
         mode=args.mode,
         save_predictions=args.save_predictions,
     )
-
-#python3 main.py --model_name xlm_roberta --learning_rate 2e-5 --weight_decay 1e-2 --type_lr_scheduler linear --warmup_ratio 0.1 --save_strategy steps --save_steps 10000 --num_epochs 3 --early_stopping_patience 1 --output_dir /mnt/hdd/sentiment_analysis_140 --dataset_name sentiment140 --batch_size 8 --truncation True --padding max_length --path_to_custom_dataset /mnt/hdd/sentiment_analysis_140/sentiment140new --mode test --device cuda

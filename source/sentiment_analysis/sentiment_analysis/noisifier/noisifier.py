@@ -12,7 +12,7 @@ from transformers import HfArgumentParser
 @dataclass
 class NoisifierArguments:
     """
-    Arguments needed to noisify SQuADv2-like datasets.
+    Arguments needed to noisify SST2-like datasets.
     """
 
     path_to_custom_dataset: str = field(
