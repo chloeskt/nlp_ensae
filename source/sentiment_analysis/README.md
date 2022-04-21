@@ -58,13 +58,13 @@ Finetuned models both for SST2 and Sentiment140 were trained with the following 
 
 |             	| Batch size 	| Learning Rate 	| Weigh decay 	| Nb of epochs 	 | Number of training examples 	| Number of validation examples 	| Lr scheduler 	| Warmup ratio 	|
 |-------------	|------------	|---------------	|-------------	|----------------|-----------------------------	|-------------------------------	|--------------	|--------------	|
-| RoBERTa     	| 12         	| 2e-5          	| 1e-2        	| 3            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
-| BERT        	| 12         	| 2e-5          	| 1e-2        	| 3            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
-| DistilBERT  	| 12         	| 2e-5          	| 1e-2        	| 3            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
-| mBERT       	| 12         	| 2e-5          	| 1e-2        	| 3            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
-| XLM-ROBERTA 	| 12         	| 2e-5          	| 1e-2        	| 3            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
-| CANINE-c    	| 6          	| 2e-5          	| 1e-2        	| 3            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
-| CANINE-s    	| 6          	| 2e-5          	| 1e-2        	| 3            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
+| RoBERTa     	| 12         	| 2e-5          	| 1e-2        	| 2            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
+| BERT        	| 12         	| 2e-5          	| 1e-2        	| 2            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
+| DistilBERT  	| 12         	| 2e-5          	| 1e-2        	| 2            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
+| mBERT       	| 12         	| 2e-5          	| 1e-2        	| 2            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
+| XLM-ROBERTA 	| 12         	| 2e-5          	| 1e-2        	| 2            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
+| CANINE-c    	| 6          	| 2e-5          	| 1e-2        	| 2            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
+| CANINE-s    	| 6          	| 2e-5          	| 1e-2        	| 2            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
 
 ## Results \& Observations
 
@@ -216,3 +216,8 @@ However on Japanese and Chinese, it is not the case. mBERT and especially XLM-Ro
 provide better accuracy on both validation and test sets. 
 
 ### Analysis of prediction errors on SST2 dataset
+
+<a href="_" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Analysis of models' predictions
+
+### Discussion
+
