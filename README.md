@@ -50,7 +50,7 @@ Here is a list of the datasets we considered, depending on the task.
 
 Please, take a look at the Colab notebook: 
 
-- [ ] TODO: INSERT LINK
+<a href="https://drive.google.com/file/d/18Th_ddo6ttR3FGvvgOrBF-a-OJF5VnfX/view?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Data Exploration
 
 # Embedding techniques \& Task specific modeling
 
@@ -100,7 +100,7 @@ Link to the Colab notebook which walks through the errors committed by our model
 
 Most pretrained models and custom datasets are available here:
 
-- Sentiment Classification 
+- [Sentiment Classification](https://drive.google.com/drive/folders/1HjKQ_C_EoBDncjA3nJ-IlgjwhQe4bKTO?usp=sharing) 
 - [Question Answering](https://drive.google.com/drive/folders/1L9Su25qatgdmoz-rZbeY_tA2bXq9T9EG?usp=sharing)
 
 Note that not all pretrained models are available due to limited storage our Google Drive. Contact the owner of this 
@@ -117,8 +117,7 @@ These ``README.md`` contain relevant information to each task.
 
 You can also take a look at the notebooks we have created, they serve as showcase for our work:
 
-- ...
-- <a href="https://colab.research.google.com/drive/1z8RzgzqnF3SCF1y5O9RuKJkVZgMZLQaE?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> for Question Answering
+- [ ] Add links
 
 # Future directions
 

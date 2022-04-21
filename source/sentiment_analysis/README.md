@@ -70,15 +70,15 @@ Finetuned models both for SST2 and Sentiment140 were trained with the following 
 
 ### Sentiment Classification on benchmark SST2 dataset
 
-|   Accuracy  	| Val set 	| Test set 	|
-|:-----------:	|:-------:	|:--------:	|
-|     BERT    	|   0.94  	|   0.93   	|
-|   RoBERTa   	|   0.94  	|   0.94   	|
-|  DistilBERT 	|   0.94  	|   0.91   	|
-|    mBERT    	|   0.93  	|   0.88   	|
-| XLM-RoBERTa 	|   0.92  	|   0.92   	|
-|   CANINE-C  	|   0.93  	|   0.86   	|
-|   CANINE-S  	|   0.92  	|   0.85   	|
+|   Accuracy  	| Val set 	 | Test set 	 |
+|:-----------:	|:---------:|:----------:|
+|     BERT    	|  0.94  	  |  0.93   	  |
+|   RoBERTa   	|  0.94  	  |  0.94   	  |
+|  DistilBERT 	|  0.94  	  |  0.91   	  |
+|    mBERT    	|  0.93  	  |  0.88   	  |
+| XLM-RoBERTa 	|  0.94  	  |  0.90   	  |
+|   CANINE-C  	|  0.93  	  |  0.86   	  |
+|   CANINE-S  	|  0.92  	  |  0.85   	  |
 
 In this setting, both CANINE-S and CANINE-C perform decently well on the validation set but not as much as the test set.
 There are 8 percentage points of difference between CANINE-C and RoBERTa for instance. mBERT has similar behavior than
