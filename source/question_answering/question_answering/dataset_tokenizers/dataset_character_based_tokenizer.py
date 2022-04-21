@@ -135,7 +135,6 @@ class DatasetCharacterBasedTokenizer:
         }
 
     def _tokenize_train_data(self, data: Dataset) -> CANINE_TOKENIZED_EXAMPLES:
-        self.logger.info("Start tokenizing dataset for training")
         # Some of the questions have lots of whitespace on the left, which is not useful and will make the
         # truncation of the context fail (the tokenized question will take a lots of space). So we remove that
         # left whitespace
@@ -454,7 +453,6 @@ class DatasetCharacterBasedTokenizer:
                         self.logger.debug(
                             f"answer computed ac_overflow >{ac_overflow}<"
                         )
-        self.logger.info("Done tokenizing dataset for training")
         return {
             "input_ids": final_input_ids,
             "attention_mask": final_attention_masks,

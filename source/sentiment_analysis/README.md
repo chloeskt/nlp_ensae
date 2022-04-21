@@ -31,6 +31,12 @@ As CANINE has been pre-trained on multilingual data, it could be worth it to ana
 than English, especially since it is tokenization-free and hence, theoretically, should be able to adapt more easily to
 languages with richer morphology. To test that, we did zero-shot transfer learning on multilingual data (MARC dataset).
 
+To go further, we decided to compare the abilities of CANINE and other BERT-like models when actually finetuned on this
+multilingual data. To do so, we have chosen to work again with the MARC dataset, using data in German, Japanese and
+Chinese. We would like to see how CANINE compares and if it is better on languages which are more challenging for
+token-based models (Chinese for instance). Compared to the previous experience, we are not doing transfer learning but
+really finetuning for 2 epochs the models on a train set.
+
 Finally, we provide a look into the prediction errors of all models on the SST2 test set.
 
 ## Datasets
@@ -50,29 +56,29 @@ Notice that we did not took the whole Sentiment140 dataset as it was too costly 
 
 Finetuned models both for SST2 and Sentiment140 were trained with the following parameters:
 
-|             	| Batch size 	| Learning Rate 	| Weigh decay 	| Nb of epochs 	| Number of training examples 	| Number of validation examples 	| Lr scheduler 	| Warmup ratio 	|
-|-------------	|------------	|---------------	|-------------	|--------------	|-----------------------------	|-------------------------------	|--------------	|--------------	|
-| RoBERTa     	| 12         	| 2e-5          	| 1e-2        	| 5            	| 63981                       	| 872                           	| linear       	| 0.1          	|
-| BERT        	| 12         	| 2e-5          	| 1e-2        	| 5            	| 63981                       	| 872                           	| linear       	| 0.1          	|
-| DistilBERT  	| 12         	| 2e-5          	| 1e-2        	| 5            	| 63981                       	| 872                           	| linear       	| 0.1          	|
-| mBERT       	| 12         	| 2e-5          	| 1e-2        	| 5            	| 63981                       	| 872                           	| linear       	| 0.1          	|
-| XLM-ROBERTA 	| 12         	| 2e-5          	| 1e-2        	| 5            	| 63981                       	| 872                           	| linear       	| 0.1          	|
-| CANINE-c    	| 6          	| 2e-5          	| 1e-2        	| 5            	| 63981                       	| 872                           	| linear       	| 0.1          	|
-| CANINE-s    	| 6          	| 2e-5          	| 1e-2        	| 5            	| 63981                       	| 872                           	| linear       	| 0.1          	|
+|             	| Batch size 	| Learning Rate 	| Weigh decay 	| Nb of epochs 	 | Number of training examples 	| Number of validation examples 	| Lr scheduler 	| Warmup ratio 	|
+|-------------	|------------	|---------------	|-------------	|----------------|-----------------------------	|-------------------------------	|--------------	|--------------	|
+| RoBERTa     	| 12         	| 2e-5          	| 1e-2        	| 2            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
+| BERT        	| 12         	| 2e-5          	| 1e-2        	| 2            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
+| DistilBERT  	| 12         	| 2e-5          	| 1e-2        	| 2            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
+| mBERT       	| 12         	| 2e-5          	| 1e-2        	| 2            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
+| XLM-ROBERTA 	| 12         	| 2e-5          	| 1e-2        	| 2            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
+| CANINE-c    	| 6          	| 2e-5          	| 1e-2        	| 2            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
+| CANINE-s    	| 6          	| 2e-5          	| 1e-2        	| 2            	 | 63981                       	| 872                           	| linear       	| 0.1          	|
 
 ## Results \& Observations
 
 ### Sentiment Classification on benchmark SST2 dataset
 
-|   Accuracy  	| Val set 	| Test set 	|
-|:-----------:	|:-------:	|:--------:	|
-|     BERT    	|   0.94  	|   0.93   	|
-|   RoBERTa   	|   0.94  	|   0.94   	|
-|  DistilBERT 	|   0.94  	|   0.91   	|
-|    mBERT    	|   0.93  	|   0.88   	|
-| XLM-RoBERTa 	|   0.92  	|   0.92   	|
-|   CANINE-C  	|   0.93  	|   0.86   	|
-|   CANINE-S  	|   0.92  	|   0.85   	|
+|   Accuracy  	| Val set 	 | Test set 	 |
+|:-----------:	|:---------:|:----------:|
+|     BERT    	|  0.94  	  |  0.93   	  |
+|   RoBERTa   	|  0.94  	  |  0.94   	  |
+|  DistilBERT 	|  0.94  	  |  0.91   	  |
+|    mBERT    	|  0.93  	  |  0.88   	  |
+| XLM-RoBERTa 	|  0.94  	  |  0.90   	  |
+|   CANINE-C  	|  0.93  	  |  0.86   	  |
+|   CANINE-S  	|  0.92  	  |  0.85   	  |
 
 In this setting, both CANINE-S and CANINE-C perform decently well on the validation set but not as much as the test set.
 There are 8 percentage points of difference between CANINE-C and RoBERTa for instance. mBERT has similar behavior than
@@ -187,4 +193,31 @@ Note that its pre-training strategy is different from the one of mBERT and CANIN
 pretrained on the top 104 languages with the largest Wikipedia using a MLM objective, XLM-RoBERTa was pretrained on 2.5TB 
 of filtered CommonCrawl data containing 100 languages. This might be a confounding variable.
 
+### Finetuning on multlingual data
+
+In this last experiment, we now compare CANINE to other BERT-like models on multilingual data where they are finetuned 
+on it. This is the difference with the previous experience. To do so, we have chosen to work again with the MARC dataset, 
+using data in German, Japanese and Chinese. We would like to see how CANINE compares and if it is better on languages
+which are more challenging for token-based models (Chinese for instance). 
+
+Please note that due to time and compute constraints, we considered only one CANINE model, CANINE-S. 
+
+The results are given below:
+
+|             	|  German 	|          	| Japanese 	|          	| Chinese 	|          	|
+|:-----------:	|:-------:	|:--------:	|:--------:	|:--------:	|:-------:	|:--------:	|
+|             	| Val set 	| Test set 	|  Val set 	| Test set 	| Val set 	| Test set 	|
+|    mBERT    	|   0.93  	|   0.93   	|   0.92   	|   0.92   	|   0.87  	|   0.88   	|
+| XLM-RoBERTa 	|   0.92  	|   0.92   	|   0.93   	|   0.93   	|   0.88  	|   0.88   	|
+|   CANINE-S  	|   0.93  	|   0.93   	|   0.90   	|   0.89   	|   0.85  	|   0.85   	|
+
+Quite surprisingly, on German, CANINE-S is slightly better than XLM-RoBERTa and has similar performance than mBERT. 
+However on Japanese and Chinese, it is not the case. mBERT and especially XLM-RoBERTa should be preferred has they
+provide better accuracy on both validation and test sets. 
+
 ### Analysis of prediction errors on SST2 dataset
+
+<a href="_" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Analysis of models' predictions
+
+### Discussion
+
