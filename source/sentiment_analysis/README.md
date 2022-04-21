@@ -195,5 +195,24 @@ of filtered CommonCrawl data containing 100 languages. This might be a confoundi
 
 ### Finetuning on multlingual data
 
+In this last experiment, we now compare CANINE to other BERT-like models on multilingual data where they are finetuned 
+on it. This is the difference with the previous experience. To do so, we have chosen to work again with the MARC dataset, 
+using data in German, Japanese and Chinese. We would like to see how CANINE compares and if it is better on languages
+which are more challenging for token-based models (Chinese for instance). 
+
+Please note that due to time and compute constraints, we considered only one CANINE model, CANINE-S. 
+
+The results are given below:
+
+|             	|  German 	|          	| Japanese 	|          	| Chinese 	|          	|
+|:-----------:	|:-------:	|:--------:	|:--------:	|:--------:	|:-------:	|:--------:	|
+|             	| Val set 	| Test set 	|  Val set 	| Test set 	| Val set 	| Test set 	|
+|    mBERT    	|   0.93  	|   0.93   	|   0.92   	|   0.92   	|   0.87  	|   0.88   	|
+| XLM-RoBERTa 	|   0.92  	|   0.92   	|   0.93   	|   0.93   	|   0.88  	|   0.88   	|
+|   CANINE-S  	|   0.93  	|   0.93   	|   0.90   	|   0.89   	|   0.85  	|   0.85   	|
+
+Quite surprisingly, on German, CANINE-S is slightly better than XLM-RoBERTa and has similar performance than mBERT. 
+However on Japanese and Chinese, it is not the case. mBERT and especially XLM-RoBERTa should be preferred has they
+provide better accuracy on both validation and test sets. 
 
 ### Analysis of prediction errors on SST2 dataset
