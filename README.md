@@ -94,14 +94,16 @@ As the goal is to evaluate CANINE and compare its performances to BERT-like mode
 
 Link to the Colab notebook which walks through the errors committed by our models on SST2.
 
-- [ ] TODO: ADD COLAB LINK
+<a href="https://colab.research.google.com/gist/chloeskt/f742ba755fda28b4979f5cd2672d00b8/ml_nlp_sst2_predictions_insights.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Analysis of models' predictions
 
 # Pre-trained models
 
 Most pretrained models and custom datasets are available here:
 
-- [Sentiment Classification](https://drive.google.com/drive/folders/1HjKQ_C_EoBDncjA3nJ-IlgjwhQe4bKTO?usp=sharing) 
-- [Question Answering](https://drive.google.com/drive/folders/1L9Su25qatgdmoz-rZbeY_tA2bXq9T9EG?usp=sharing)
+- [Sentiment Classification models](https://drive.google.com/drive/folders/1HjKQ_C_EoBDncjA3nJ-IlgjwhQe4bKTO?usp=sharing)
+- [Sentiment Classification custom datasets](https://drive.google.com/drive/folders/1A9SrIW0hyXSyj0joKBC9re-U4ri9zewt?usp=sharing)
+- [Question Answering models](https://drive.google.com/drive/folders/1L9Su25qatgdmoz-rZbeY_tA2bXq9T9EG?usp=sharing)
+- [Question Answering custom datasets](https://drive.google.com/drive/folders/1ff5GBaY9Bp3y3J6MLXKoMTMmxdd0ERBl?usp=sharing)
 
 Note that not all pretrained models are available due to limited storage our Google Drive. Contact the owner of this 
 repository for questions if needed.
@@ -117,11 +119,14 @@ These ``README.md`` contain relevant information to each task.
 
 You can also take a look at the notebooks we have created, they serve as showcase for our work:
 
-- [ ] Add links
+- <a href="https://colab.research.google.com/gist/chloeskt/d0303b2101103d745512d7d06d65f182/ml_nlp_sentiment_analysis_canine.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Sentiment Analysis
+- <a href="https://colab.research.google.com/gist/chloeskt/e943ae2af41dbb932ac86381258e7e9f/ml_nlp_question_answering_canine.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Question Answering
 
 # Future directions
 
-- Work on tokenizers
+- Work on tokenizers:  evaluate the importance of the chosen tokenizer for each BERT-like model and how it impacts their 
+final predictions. This would allow us to quantify what is captured and what is missing by each model at this level and 
+compare that to the character level embeddings of CANINE. 
 - More hyperparameters search for CANINE models (could not afford to do that during this project due to limited time and
 compute resources)
 
