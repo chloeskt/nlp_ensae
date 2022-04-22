@@ -119,11 +119,14 @@ These ``README.md`` contain relevant information to each task.
 
 You can also take a look at the notebooks we have created, they serve as showcase for our work:
 
-- [ ] Add links
+- <a href="https://colab.research.google.com/gist/chloeskt/d0303b2101103d745512d7d06d65f182/ml_nlp_sentiment_analysis_canine.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Sentiment Analysis
+- <a href="https://colab.research.google.com/gist/chloeskt/e943ae2af41dbb932ac86381258e7e9f/ml_nlp_question_answering_canine.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Question Answering
 
 # Future directions
 
-- Work on tokenizers
+- Work on tokenizers:  evaluate the importance of the chosen tokenizer for each BERT-like model and how it impacts their 
+final predictions. This would allow us to quantify what is captured and what is missing by each model at this level and 
+compare that to the character level embeddings of CANINE. 
 - More hyperparameters search for CANINE models (could not afford to do that during this project due to limited time and
 compute resources)
 

@@ -221,3 +221,10 @@ provide better accuracy on both validation and test sets.
 
 ### Discussion
 
+From our SC experiments, overall, other BERT-like models were better than CANINE. However, note that on most tasks, 
+CANINE performs similarly to mBERT and might be even slightly better. But for general tasks in English or more generally 
+with languages for which we have a lot of resources, XLM-R and/or RoBERTa are better. We were not able to prove in our 
+experiments that CANINE is better than tokenizer-based BERT-like models even on more challenging and complex languages 
+such as Thai, Chinese, Japanese or Arabic. When finetuning for binary classification on German, Japanese and Chinese, 
+CANINE-S was slightly better than XLM-R on German (high proximity with English, West Germanic family). But this was not 
+the case in Japanese and Chinese where mBERT and XLM-R should be prefered (+3pp in accuracy). 
