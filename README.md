@@ -94,14 +94,16 @@ As the goal is to evaluate CANINE and compare its performances to BERT-like mode
 
 Link to the Colab notebook which walks through the errors committed by our models on SST2.
 
-- [ ] TODO: ADD COLAB LINK
+<a href="https://colab.research.google.com/gist/chloeskt/f742ba755fda28b4979f5cd2672d00b8/ml_nlp_sst2_predictions_insights.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Analysis of models' predictions
 
 # Pre-trained models
 
 Most pretrained models and custom datasets are available here:
 
-- [Sentiment Classification](https://drive.google.com/drive/folders/1HjKQ_C_EoBDncjA3nJ-IlgjwhQe4bKTO?usp=sharing) 
-- [Question Answering](https://drive.google.com/drive/folders/1L9Su25qatgdmoz-rZbeY_tA2bXq9T9EG?usp=sharing)
+- [Sentiment Classification models](https://drive.google.com/drive/folders/1HjKQ_C_EoBDncjA3nJ-IlgjwhQe4bKTO?usp=sharing)
+- [Sentiment Classification custom datasets](https://drive.google.com/drive/folders/1A9SrIW0hyXSyj0joKBC9re-U4ri9zewt?usp=sharing)
+- [Question Answering models](https://drive.google.com/drive/folders/1L9Su25qatgdmoz-rZbeY_tA2bXq9T9EG?usp=sharing)
+- [Question Answering custom datasets](https://drive.google.com/drive/folders/1ff5GBaY9Bp3y3J6MLXKoMTMmxdd0ERBl?usp=sharing)
 
 Note that not all pretrained models are available due to limited storage our Google Drive. Contact the owner of this 
 repository for questions if needed.

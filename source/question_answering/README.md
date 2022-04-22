@@ -50,6 +50,8 @@ Datasets splits are as follows:
 
 All finetuned models used in these experiments can be found [here](https://drive.google.com/drive/folders/1JVR6J8OjSTQ66fBseqHsSzoryTCQXVO_?usp=sharing).
 
+All custom datasets can be found [here](https://drive.google.com/drive/folders/1ff5GBaY9Bp3y3J6MLXKoMTMmxdd0ERBl?usp=sharing)
+
 They were trained with the following parameters:
 
 |             	| Batch size 	| Learning Rate 	| Weigh decay 	| Nb of epochs 	| Number of training examples 	| Number of validation examples 	| Max sequence length 	| Doc stride 	| Max answer length 	| Lr scheduler 	| Warmup ratio 	|

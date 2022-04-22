@@ -217,7 +217,7 @@ provide better accuracy on both validation and test sets.
 
 ### Analysis of prediction errors on SST2 dataset
 
-<a href="_" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Analysis of models' predictions
+<a href="https://colab.research.google.com/gist/chloeskt/f742ba755fda28b4979f5cd2672d00b8/ml_nlp_sst2_predictions_insights.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Analysis of models' predictions
 
 ### Discussion
 
