@@ -2,6 +2,9 @@
 
 This project has been done by Chloé SEKKAT (ENSAE \& ENS Paris-Saclay) and Jocelyn BEAUMANOIR (ENSAE \& ESSEC).  
 
+NB: There are four showcase notebooks associated to this Python package, you might find them in the folder ``notebooks``,
+else Colab links are provided below.
+
 # Problem framing
 
 In this project we chose to take a **scientific** approach in which we want the performances of CANINE, the first pre-trained 
@@ -94,7 +97,7 @@ As the goal is to evaluate CANINE and compare its performances to BERT-like mode
 
 Link to the Colab notebook which walks through the errors committed by our models on SST2.
 
-<a href="https://colab.research.google.com/gist/chloeskt/f742ba755fda28b4979f5cd2672d00b8/ml_nlp_sst2_predictions_insights.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Analysis of models' predictions
+<a href="https://drive.google.com/file/d/1rQnUEU-SlvJ2qKgIeCP7Yrkk33W_JvCK/view?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Analysis of models' predictions
 
 # Pre-trained models
 
@@ -119,8 +122,8 @@ These ``README.md`` contain relevant information to each task.
 
 You can also take a look at the notebooks we have created, they serve as showcase for our work:
 
-- <a href="https://colab.research.google.com/gist/chloeskt/d0303b2101103d745512d7d06d65f182/ml_nlp_sentiment_analysis_canine.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Sentiment Analysis
-- <a href="https://colab.research.google.com/gist/chloeskt/e943ae2af41dbb932ac86381258e7e9f/ml_nlp_question_answering_canine.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Question Answering
+- <a href="https://colab.research.google.com/drive/1gdrhowsrnp1T5SEjYqowvfHVrozj_NbB?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Sentiment Analysis
+- <a href="https://colab.research.google.com/drive/1JhfZopl5Xe-282GB-DfNYAJVV8-84ZzE?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Question Answering
 
 # Future directions
 
