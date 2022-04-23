@@ -53,7 +53,7 @@ Here is a list of the datasets we considered, depending on the task.
 
 Please, take a look at the Colab notebook: 
 
-<a href="https://drive.google.com/file/d/18Th_ddo6ttR3FGvvgOrBF-a-OJF5VnfX/view?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Data Exploration
+<a href="https://colab.research.google.com/drive/1G-yuFSIoAsiRJMkMVAd2kY6Qw6DPrC7N?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> Data Exploration
 
 # Embedding techniques \& Task specific modeling
 
