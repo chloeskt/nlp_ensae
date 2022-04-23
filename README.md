@@ -2,6 +2,9 @@
 
 This project has been done by Chloé SEKKAT (ENSAE \& ENS Paris-Saclay) and Jocelyn BEAUMANOIR (ENSAE \& ESSEC).  
 
+NB: There are four showcase notebooks associated to this Python package, you might find them in the folder ``notebooks``,
+else Colab links are provided below.
+
 # Problem framing
 
 In this project we chose to take a **scientific** approach in which we want the performances of CANINE, the first pre-trained 
