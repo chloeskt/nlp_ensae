@@ -2,6 +2,8 @@
 
 This project has been done by Chloé SEKKAT (ENSAE \& ENS Paris-Saclay) and Jocelyn BEAUMANOIR (ENSAE \& ESSEC).  
 
+Final grade: 19.40 (this project + quizzes)
+
 NB: There are four showcase notebooks associated to this Python package, you might find them in the folder ``notebooks``,
 else Colab links are provided below.
 
